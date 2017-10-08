@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="800.0" maxWidth="800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #008000;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.ViewPaneController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="267.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.0" minWidth="10.0" prefWidth="730.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="580.0" minWidth="0.0" prefWidth="0.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="167.0" minHeight="15.0" prefHeight="51.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="247.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="247.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="311.0" minHeight="10.0" prefHeight="235.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="288.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backToMenuAction" text="Powrót" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Label alignment="CENTER" text="Wybierz pytanie z listy aby je wyświetlić" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </Label>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <ComboBox fx:id="comboBox" layoutX="33.0" layoutY="18.0" prefHeight="25.0" prefWidth="594.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+         </children>
+      </AnchorPane>
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="176.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="554.0" minWidth="10.0" prefWidth="554.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Odpowiedź A:" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label text="Odpowiedź C:" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label text="Odpowiedź D:" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="questionLabel" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="cAnswerLabel" style="-: #008000;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="dAnswerLabel" style="-fx-background-color: #008000;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label text="Odpowiedź B:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="aAnswerLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="bAnswerLabel" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Label text="Wybrane pytanie:">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <Button mnemonicParsing="false" onAction="#showQuestion" text="Wyświetl wybrane pytanie" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

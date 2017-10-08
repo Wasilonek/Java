@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="235.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BeatifulCalculator.controller.CalculatorPaneController">
+   <children>
+      <GridPane layoutX="18.0" layoutY="179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="3" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#operationAction" prefHeight="50.0" prefWidth="60.0" text="/" textOverrun="WORD_ELLIPSIS" GridPane.columnIndex="3">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="7" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="2" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="4" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="oneBtn" mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="47.0" prefWidth="142.0" text="0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#operationAction" prefHeight="50.0" prefWidth="60.0" text="*" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#operationAction" prefHeight="50.0" prefWidth="60.0" text="-" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#operationAction" prefHeight="50.0" prefWidth="60.0" text="+" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#numberOperation" prefHeight="50.0" prefWidth="60.0" text="." GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#operationAction" prefHeight="50.0" prefWidth="60.0" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="acBtn" mnemonicParsing="false" onAction="#clearAction" prefHeight="47.0" prefWidth="60.0" text="AC">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#changeSign" prefHeight="50.0" prefWidth="60.0" text="+/-" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#operationAction" prefHeight="50.0" prefWidth="60.0" text="\%" GridPane.columnIndex="2">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </GridPane>
+      <TextArea fx:id="textArea" editable="false" layoutX="18.0" layoutY="-67.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="64.0" prefWidth="235.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="System Italic" size="24.0" />
+         </font>
+      </TextArea>
+   </children>
+</AnchorPane>

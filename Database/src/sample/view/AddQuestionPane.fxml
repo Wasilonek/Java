@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #008000;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.AddQuestionController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="10.0" prefWidth="202.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="378.0" minWidth="10.0" prefWidth="373.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="71.0" minHeight="15.0" prefHeight="5.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="92.0" minHeight="15.0" prefHeight="5.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="92.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="92.0" minHeight="15.0" prefHeight="5.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="92.0" minHeight="15.0" prefHeight="5.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="92.0" minHeight="15.0" prefHeight="5.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="92.0" minHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="5.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="5.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#backAction" prefHeight="25.0" prefWidth="117.0" text="Powrót do Menu" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+      <TextField fx:id="questionTextField" alignment="TOP_LEFT" prefHeight="35.0" GridPane.columnIndex="1">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font></TextField>
+      <TextField fx:id="aAnswerTextField" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="378.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font></TextField>
+      <Label text="Podaj pytanie:">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font></Label>
+      <Label text="Podaj odpowiedź A:" GridPane.columnSpan="2" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font></Label>
+      <Button fx:id="addBtn" alignment="CENTER" mnemonicParsing="false" onAction="#addAction" prefHeight="25.0" prefWidth="62.0" text="Dodaj" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+      <Label text="Podaj odpowiedź B:" GridPane.rowIndex="2">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </Label>
+      <Label text="Podaj odpowiedź C:" GridPane.rowIndex="3">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </Label>
+      <Label text="Podaj odpowiedź D:" GridPane.rowIndex="4">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </Label>
+      <Label text="Zaznacz która odpowiedź jest poprawna:" GridPane.columnSpan="2" GridPane.rowIndex="5">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <GridPane prefHeight="30.0" prefWidth="324.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <CheckBox fx:id="aCheckBox" mnemonicParsing="false" text="A" GridPane.columnIndex="1" />
+            <CheckBox fx:id="bCheckBox" mnemonicParsing="false" text="B" GridPane.columnIndex="2" />
+            <CheckBox fx:id="cCheckBox" mnemonicParsing="false" text="C" GridPane.columnIndex="3" />
+            <CheckBox fx:id="dCheckBox" mnemonicParsing="false" text="D" GridPane.columnIndex="4" />
+         </children>
+      </GridPane>
+      <TextField fx:id="bAnswerTextField" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="378.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="cAnswerTextField" alignment="TOP_LEFT" prefHeight="40.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="dAnswerTextField" alignment="TOP_LEFT" prefHeight="40.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </TextField>
+      <Label fx:id="informLabel" text="Pytanie dodane!" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>
