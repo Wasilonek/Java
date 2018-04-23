@@ -1,3 +1,5 @@
+package ThreeMethods;
+
 /**
  * Created by Kamil on 2018-04-19.
  */
