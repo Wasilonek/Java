@@ -4,30 +4,41 @@ package UniversalMethod.Model;
  * Created by Kamil on 2018-04-23.
  */
 public class GameRules {
+
+    private int decimalNumberOfRule;
     private Cell cellArray[];
-    private int size = 50;
+    private int size = 200;
     private int alive = 1;
     private int dead = 0;
     private int actual, next, prev;
     private int numberOfRule[];
 
     public GameRules() {
+        decimalNumberOfRule = 90;
         cellArray = new Cell[size];
         for (int i = 0; i < size; i++) {
             cellArray[i] = new Cell();
         }
         cellArray[size / 2].setState(alive);
         numberOfRule = new int[8];
+        getBit();
+    }
+
+    public void fillCellArray() {
+        for (int i = 0; i < cellArray.length; i++) {
+            cellArray[i].setState(0);
+            cellArray[i].setNextState(0);
+        }
+        cellArray[size / 2].setState(1);
     }
 
     public void getBit() {
         for (int i = 0; i < 8; i++) {
-            numberOfRule[i] = (250 >> i) & 1;
-            System.out.println(numberOfRule[i]);
+            numberOfRule[i] = (decimalNumberOfRule >> i) & 1;
         }
 
     }
-    
+
     public void draw() {
         for (int i = 0; i < cellArray.length; i++) {
             if (cellArray[i].getState() == alive) System.out.print("*");
@@ -55,8 +66,6 @@ public class GameRules {
                 prev = cellArray[i - 1].getState();
             }
 
-            if (prev == alive && actual == alive && next == alive)
-                cellArray[i].setNextState(numberOfRule[0]);
 
             if (prev == alive && actual == alive && next == alive) cellArray[i].setNextState(numberOfRule[7]);
             if (prev == alive && actual == alive && next == dead) cellArray[i].setNextState(numberOfRule[6]);
@@ -73,5 +82,85 @@ public class GameRules {
             cellArray[i].copy(cellArray[i].getNextState());
         }
         return cellArray;
+    }
+
+    public int getCell(int i) {
+        return cellArray[i].getState();
+    }
+
+    public void setCell(int i) {
+        cellArray[i].setState(i);
+    }
+
+    public Cell[] getCellArray() {
+        return cellArray;
+    }
+
+    public void setCellArray(Cell[] cellArray) {
+        this.cellArray = cellArray;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getAlive() {
+        return alive;
+    }
+
+    public void setAlive(int alive) {
+        this.alive = alive;
+    }
+
+    public int getDead() {
+        return dead;
+    }
+
+    public void setDead(int dead) {
+        this.dead = dead;
+    }
+
+    public int getActual() {
+        return actual;
+    }
+
+    public void setActual(int actual) {
+        this.actual = actual;
+    }
+
+    public int getNext() {
+        return next;
+    }
+
+    public void setNext(int next) {
+        this.next = next;
+    }
+
+    public int getPrev() {
+        return prev;
+    }
+
+    public void setPrev(int prev) {
+        this.prev = prev;
+    }
+
+    public int[] getNumberOfRule() {
+        return numberOfRule;
+    }
+
+    public void setNumberOfRule(int[] numberOfRule) {
+        this.numberOfRule = numberOfRule;
+    }
+
+    public int getDecimalNumberOfRule() {
+        return decimalNumberOfRule;
+    }
+
+    public void setDecimalNumberOfRule(int decimalNumberOfRule) {
+        this.decimalNumberOfRule = decimalNumberOfRule;
     }
 }
