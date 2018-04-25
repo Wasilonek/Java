@@ -1,10 +1,13 @@
 package controller;
 
 
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.util.Duration;
 import model.Game;
 
 
@@ -25,8 +28,8 @@ public class MainController {
     public MainController() {
         game = new Game();
         numberOfSteps = 5;
-        cellWidth = 6;
-        cellHeight = 6;
+        cellWidth = 5;
+        cellHeight = 5;
     }
 
     @FXML
@@ -49,14 +52,25 @@ public class MainController {
         game.setInconstantsStructure();
     }
 
-    public void gliderButtonAction(){
+    public void gliderButtonAction() {
         game.clearCellArray();
         game.setGliderStructure();
     }
 
-    public void GunButtonAction(){
+    public void GunButtonAction() {
         game.clearCellArray();
         game.setGunStructure();
+    }
+
+    public void nextButtonAction() {
+        draw();
+    }
+
+    public void nextFiveStepsButtonAction() {
+        for (int i = 0; i < 5; i++) {
+            game.gameRules();
+        }
+        draw();
     }
 
 
@@ -72,22 +86,41 @@ public class MainController {
         game.gameRules();
     }
 
+    public void drawWithoutClear() {
+        for (int j = 0; j < game.getCellArray().length; j++) {
+            for (int k = 0; k < game.getCellArray().length; k++) {
+                if (game.getCell(j, k) == 1) {
+                    graphicsContext.fillRect(k * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                }
+            }
+        }
+        game.gameRules();
+    }
+
     public void startButtonAction() {
         for (int i = 0; i < numberOfSteps; i++) {
+            func();
+        }
+    }
+
+    private void func() {
+        for (int i = 0; i < numberOfSteps; i++) {
             draw();
+//            SequentialTransition seqTransition = new SequentialTransition (
+//                    new PauseTransition(Duration.millis(1000)) // wait a second
+//            );
+//            seqTransition.play();
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            clearCanvas();
         }
     }
 
-
-
-    public void nextButtonAction() {
-        System.out.println("Kamil");
-        draw();
+    public void clearCanvas(){
+        graphicsContext.clearRect(0, 0, 600, 600);
     }
 
     public void clearButtonAction() {

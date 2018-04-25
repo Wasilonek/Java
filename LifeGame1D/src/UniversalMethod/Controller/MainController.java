@@ -38,11 +38,11 @@ public class MainController {
         graphicsContext = canvas.getGraphicsContext2D();
     }
 
-    public void textFiledAction(){
+    public void textFiledAction() {
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode() == KeyCode.ENTER){
+                if (event.getCode() == KeyCode.ENTER) {
                     gameRules.setDecimalNumberOfRule(Integer.valueOf(textField.getText()));
                     gameRules.fillCellArray();
                     gameRules.getBit();
@@ -51,13 +51,13 @@ public class MainController {
         });
     }
 
-    public void drawButtonAction(){
+    public void drawButtonAction() {
         drawCells();
     }
 
     public void drawCells() {
 
-        graphicsContext.clearRect(0,0,600,400);
+        graphicsContext.clearRect(0, 0, 600, 400);
         int numberOfPeriod = 100;
         int cellWidth = (int) canvas.getWidth() / gameRules.getCellArray().length;
         int cellHeight = (int) canvas.getHeight() / numberOfPeriod;
