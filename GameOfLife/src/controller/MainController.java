@@ -20,10 +20,13 @@ public class MainController {
 
     private Game game;
 
-    private int cellWidth, cellHeight;
+    private int cellWidth, cellHeight, numberOfSteps;
 
     public MainController() {
         game = new Game();
+        numberOfSteps = 5;
+        cellWidth = 6;
+        cellHeight = 6;
     }
 
     @FXML
@@ -31,30 +34,64 @@ public class MainController {
         graphicsContext = canvas.getGraphicsContext2D();
     }
 
+    public void unchangingStructureButtonAction() {
+        game.clearCellArray();
+        game.setUnchangingStructure();
+    }
+
+    public void oscillatorsButtonAction() {
+        game.clearCellArray();
+        game.setOscillatorsStructure();
+    }
+
+    public void inconstantStructureButtonAction() {
+        game.clearCellArray();
+        game.setInconstantsStructure();
+    }
+
+    public void gliderButtonAction(){
+        game.clearCellArray();
+        game.setGliderStructure();
+    }
+
+    public void GunButtonAction(){
+        game.clearCellArray();
+        game.setGunStructure();
+    }
+
+
     public void draw() {
-
-
         graphicsContext.clearRect(0, 0, 600, 600);
-        int numberOfPeriod = 100;
-//        int cellWidth = (int) canvas.getWidth() / game.getCellArray().length;
-//        int cellHeight = (int) canvas.getHeight() / numberOfPeriod;
-        int cellWidth = 4;
-        int cellHeight = 4;
-
         for (int j = 0; j < game.getCellArray().length; j++) {
             for (int k = 0; k < game.getCellArray().length; k++) {
                 if (game.getCell(j, k) == 1) {
                     graphicsContext.fillRect(k * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 }
             }
-
         }
         game.gameRules();
     }
+
+    public void startButtonAction() {
+        for (int i = 0; i < numberOfSteps; i++) {
+            draw();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 
     public void nextButtonAction() {
         System.out.println("Kamil");
         draw();
+    }
+
+    public void clearButtonAction() {
+        game.clearCellArray();
+        graphicsContext.clearRect(0, 0, 600, 600);
     }
 }

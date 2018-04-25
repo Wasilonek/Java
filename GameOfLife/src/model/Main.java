@@ -10,14 +10,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     public static void main(String[] args) {
-        Game game = new Game();
-        game.drawCellArray();
-        game.gameRules();
-        System.out.println("\n\n");
-        game.drawCellArray();
         launch(args);
     }
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -26,7 +20,7 @@ public class Main extends Application {
         Pane pane = fxmlLoader.load();
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Life Game");
+        primaryStage.setTitle("Game of Life");
         primaryStage.show();
         primaryStage.setResizable(false);
     }

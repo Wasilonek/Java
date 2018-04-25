@@ -1,8 +1,5 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by Kamil on 2018-04-24.
  */
@@ -12,7 +9,6 @@ public class Game {
     private int alive = 1;
     private int dead = 0;
     private int aliveNeighbour;
-    //   private Map<Integer , String> neighbours;
 
     public Game() {
         cellArray = new Cell[size][size];
@@ -21,40 +17,126 @@ public class Game {
                 cellArray[i][j] = new Cell();
             }
         }
-//        cellArray[5][5].setState(alive);
-//        cellArray[5][7].setState(alive);
-//        cellArray[5][9].setState(alive);
-//        cellArray[6][5].setState(alive);
-//        cellArray[6][9].setState(alive);
-//        cellArray[7][5].setState(alive);
-//        cellArray[7][9].setState(alive);
-//        cellArray[8][5].setState(alive);
-//        cellArray[8][9].setState(alive);
-//        cellArray[9][5].setState(alive);
-//        cellArray[9][7].setState(alive);
-//        cellArray[9][9].setState(alive);
+        aliveNeighbour = 0;
+    }
 
+    public void clearCellArray() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+                cellArray[i][j].setState(0);
+                cellArray[i][j].setNextState(0);
+            }
+        }
+    }
+
+    public void setInconstantsStructure() {
+        cellArray[50][50].setState(alive);
+        cellArray[50][52].setState(alive);
+        cellArray[50][54].setState(alive);
+        cellArray[51][50].setState(alive);
+        cellArray[51][54].setState(alive);
+        cellArray[52][50].setState(alive);
+        cellArray[52][54].setState(alive);
+        cellArray[53][50].setState(alive);
+        cellArray[53][54].setState(alive);
+        cellArray[54][50].setState(alive);
+        cellArray[54][52].setState(alive);
+        cellArray[54][54].setState(alive);
+    }
+
+    public void setUnchangingStructure() {
+        cellArray[50][50].setState(alive);
+        cellArray[50][51].setState(alive);
+        cellArray[51][49].setState(alive);
+        cellArray[51][52].setState(alive);
+        cellArray[52][50].setState(alive);
+        cellArray[52][51].setState(alive);
+
+    }
+
+    public void setOscillatorsStructure() {
         cellArray[50][50].setState(alive);
         cellArray[50][51].setState(alive);
         cellArray[50][52].setState(alive);
+        cellArray[51][49].setState(alive);
         cellArray[51][50].setState(alive);
-        cellArray[52][51].setState(alive);
+        cellArray[51][51].setState(alive);
 
-
-//        cellArray[6][9].setState(alive);
-//        cellArray[7][5].setState(alive);
-//        cellArray[7][9].setState(alive);
-//        cellArray[8][5].setState(alive);
-//        cellArray[8][9].setState(alive);
-//        cellArray[9][5].setState(alive);
-//        cellArray[9][7].setState(alive);
-//        cellArray[9][9].setState(alive);
-
-        aliveNeighbour = 0;
-//        neighbours = new HashMap< Integer , String >();
-//        neighbours.put(0 , "aliveNeighbour");
-//        neighbours.put(0 , "deadNeighbour");
     }
+
+    public void setGliderStructure() {
+
+        cellArray[50][50].setState(alive);
+        cellArray[50][53].setState(alive);
+        cellArray[51][54].setState(alive);
+        cellArray[52][50].setState(alive);
+        cellArray[52][54].setState(alive);
+        cellArray[53][51].setState(alive);
+        cellArray[53][52].setState(alive);
+        cellArray[53][53].setState(alive);
+        cellArray[53][54].setState(alive);
+
+    }
+
+    public void setGunStructure() {
+
+        cellArray[50][50].setState(alive);
+        cellArray[51][50].setState(alive);
+        cellArray[52][50].setState(alive);
+
+        cellArray[49][51].setState(alive);
+        cellArray[53][51].setState(alive);
+
+        cellArray[48][52].setState(alive);
+        cellArray[54][52].setState(alive);
+
+        cellArray[48][53].setState(alive);
+        cellArray[54][53].setState(alive);
+
+        cellArray[51][54].setState(alive);
+
+        cellArray[49][55].setState(alive);
+        cellArray[53][55].setState(alive);
+
+        cellArray[50][56].setState(alive);
+        cellArray[51][56].setState(alive);
+        cellArray[52][56].setState(alive);
+
+        cellArray[51][57].setState(alive);
+
+        cellArray[50][60].setState(alive);
+        cellArray[49][60].setState(alive);
+        cellArray[48][60].setState(alive);
+
+        cellArray[50][61].setState(alive);
+        cellArray[49][61].setState(alive);
+        cellArray[48][61].setState(alive);
+
+        cellArray[51][62].setState(alive);
+        cellArray[47][62].setState(alive);
+
+        cellArray[46][64].setState(alive);
+        cellArray[47][64].setState(alive);
+        cellArray[51][64].setState(alive);
+        cellArray[52][64].setState(alive);
+
+        //left square
+        cellArray[50][41].setState(alive);
+        cellArray[51][41].setState(alive);
+
+        cellArray[50][40].setState(alive);
+        cellArray[51][40].setState(alive);
+
+        //right square
+        cellArray[49][74].setState(alive);
+        cellArray[48][74].setState(alive);
+
+        cellArray[49][75].setState(alive);
+        cellArray[48][75].setState(alive);
+
+    }
+
 
     public void drawCellArray() {
         for (Cell x[] : cellArray) {
