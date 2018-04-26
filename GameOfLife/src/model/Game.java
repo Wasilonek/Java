@@ -5,7 +5,7 @@ package model;
  */
 public class Game {
     private Cell[][] cellArray;
-    private int size = 600;
+    private int size = 120;
     private int alive = 1;
     private int dead = 0;
     private int aliveNeighbour;
@@ -153,16 +153,34 @@ public class Game {
 
     public Cell[][] gameRules() {
 
-        for (int i = 1; i < size - 1; i++) {
-            for (int j = 1; j < size - 1; j++) {
-                if (cellArray[i - 1][j - 1].getState() == alive) aliveNeighbour++;
-                if (cellArray[i - 1][j].getState() == alive) aliveNeighbour++;
-                if (cellArray[i - 1][j + 1].getState() == alive) aliveNeighbour++;
-                if (cellArray[i][j - 1].getState() == alive) aliveNeighbour++;
-                if (cellArray[i][j + 1].getState() == alive) aliveNeighbour++;
-                if (cellArray[i + 1][j - 1].getState() == alive) aliveNeighbour++;
-                if (cellArray[i + 1][j].getState() == alive) aliveNeighbour++;
-                if (cellArray[i + 1][j + 1].getState() == alive) aliveNeighbour++;
+        int indUp;
+        int indDown;
+        int indLeft;
+        int indRight;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                indUp = i - 1;
+                indDown = i + 1;
+                indLeft = j - 1;
+                indRight = j + 1;
+
+                if (i == 0)
+                    indUp = size - 1;
+                if (i == (size - 1))
+                    indDown = 0;
+                if (j == 0)
+                    indLeft = size - 1;
+                if (j == (size - 1))
+                    indRight = 0;
+
+                if (cellArray[indUp][indLeft].getState() == alive) aliveNeighbour++;
+                if (cellArray[indUp][j].getState() == alive) aliveNeighbour++;
+                if (cellArray[indUp][indRight].getState() == alive) aliveNeighbour++;
+                if (cellArray[i][indLeft].getState() == alive) aliveNeighbour++;
+                if (cellArray[i][indRight].getState() == alive) aliveNeighbour++;
+                if (cellArray[indDown][indLeft].getState() == alive) aliveNeighbour++;
+                if (cellArray[indDown][j].getState() == alive) aliveNeighbour++;
+                if (cellArray[indDown][indRight].getState() == alive) aliveNeighbour++;
 
 
                 if (cellArray[i][j].getState() == alive && aliveNeighbour < 2) {
