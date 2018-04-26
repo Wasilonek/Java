@@ -46,6 +46,7 @@
             <Button fx:id="gunButton" mnemonicParsing="false" onAction="#GunButtonAction" text="Gun" GridPane.rowIndex="5" />
             <Label text="After clear choose " GridPane.rowIndex="10" />
             <Label text="structure ones more" GridPane.rowIndex="11" />
+            <Button fx:id="randomButton" mnemonicParsing="false" onAction="#randomButtonAction" text="Random cells" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </children>

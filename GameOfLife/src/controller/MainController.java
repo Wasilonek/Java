@@ -3,10 +3,12 @@ package controller;
 
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import model.Game;
 
@@ -28,13 +30,26 @@ public class MainController {
     public MainController() {
         game = new Game();
         numberOfSteps = 5;
-        cellWidth = 5;
-        cellHeight = 5;
+        cellWidth = 10;
+        cellHeight = 10;
+
+
     }
 
     @FXML
     void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
+
+        canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                int x = (int) me.getX();
+                int y = (int) me.getY();
+                graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+                System.out.println(me.getX() + " " + me.getY());
+                game.setCell(((int) me.getX() / cellWidth), ((int) me.getY() / cellHeight));
+//                System.out.println(game.getCell(x, y));
+            }
+        });
     }
 
     public void unchangingStructureButtonAction() {
@@ -62,6 +77,11 @@ public class MainController {
         game.setGunStructure();
     }
 
+    public void randomButtonAction() {
+        game.clearCellArray();
+        game.randomCells();
+    }
+
     public void nextButtonAction() {
         draw();
     }
@@ -71,6 +91,7 @@ public class MainController {
             game.gameRules();
         }
         draw();
+
     }
 
 
@@ -119,7 +140,7 @@ public class MainController {
         }
     }
 
-    public void clearCanvas(){
+    public void clearCanvas() {
         graphicsContext.clearRect(0, 0, 600, 600);
     }
 

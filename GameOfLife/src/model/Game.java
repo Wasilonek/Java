@@ -1,16 +1,20 @@
 package model;
 
+import java.util.Random;
+
 /**
  * Created by Kamil on 2018-04-24.
  */
 public class Game {
     private Cell[][] cellArray;
-    private int size = 120;
+    private int size = 60;
     private int alive = 1;
     private int dead = 0;
     private int aliveNeighbour;
+    private int numberOfRandomCells;
 
     public Game() {
+        numberOfRandomCells = 70;
         cellArray = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -29,6 +33,17 @@ public class Game {
             }
         }
     }
+
+    public void randomCells(){
+        Random random = new Random();
+        for(int i = 0 ; i < numberOfRandomCells ; i++){
+            for(int j = 0 ; j < numberOfRandomCells ; j++){
+                cellArray[random.nextInt(size)][random.nextInt(size)].setState(1);
+            }
+
+        }
+    }
+
 
     public void setInconstantsStructure() {
         cellArray[50][50].setState(alive);
@@ -214,6 +229,10 @@ public class Game {
 
     public Cell[][] getCellArray() {
         return cellArray;
+    }
+
+    public void setCell(int i , int j){
+        cellArray[i][j].setState(1);
     }
 
     public void setCellArray(Cell[][] cellArray) {
