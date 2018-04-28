@@ -9,33 +9,36 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class DrawerTask extends Task {
     GraphicsContext graphicsContext;
-    private int repetition;
     MainController mainController;
-    Game game;
     boolean stopStatus;
+    private int speed;
 
-    public DrawerTask(GraphicsContext gc, int repetition, MainController mainController) {
+    public DrawerTask(GraphicsContext gc, MainController mainController) {
         this.mainController = mainController;
         this.graphicsContext = gc;
-        this.repetition = repetition;
         stopStatus = false;
+        speed = 500;
     }
-
 
     @Override
     protected Object call() throws Exception {
         while (!stopStatus) {
-            mainController.draw();
-            Thread.sleep(200);
+            mainController.drawCanvas();
+            Thread.sleep(speed);
         }
         return 1;
-    }
-
-    public boolean isStopStatus() {
-        return stopStatus;
     }
 
     public void setStopStatus(boolean stopStatus) {
         this.stopStatus = stopStatus;
     }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
 }

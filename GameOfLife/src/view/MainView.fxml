@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.canvas.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
-      <Canvas fx:id="canvas" height="600.0" width="600.0" />
-      <GridPane layoutX="600.0" prefHeight="600.0" prefWidth="150.0">
+      <Canvas fx:id="canvas" height="700.0" width="700.0" />
+      <GridPane layoutX="744.0" prefHeight="600.0" prefWidth="150.0">
         <columnConstraints>
           <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="0.0" prefWidth="0.0" />
@@ -20,13 +16,13 @@
         <rowConstraints>
           <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="21.0" valignment="CENTER" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="40.0" minHeight="30.0" prefHeight="0.0" valignment="CENTER" />
-            <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="74.0" minHeight="0.0" prefHeight="74.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="57.0" minHeight="30.0" prefHeight="57.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="40.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER" />
+            <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="12.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="128.0" minHeight="0.0" prefHeight="35.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="150.0" minHeight="30.0" prefHeight="150.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="82.0" minHeight="30.0" prefHeight="68.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="15.0" minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="15.0" minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
@@ -34,22 +30,16 @@
             <RowConstraints maxHeight="50.0" minHeight="2.0" prefHeight="24.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="25.0" prefWidth="80.0" text="One step" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
-            <Button fx:id="nextFiveStepsButton" mnemonicParsing="false" onAction="#nextFiveStepsButtonAction" prefHeight="25.0" prefWidth="80.0" text="5 steps" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonAction" prefHeight="25.0" prefWidth="80.0" text="Start " GridPane.halignment="LEFT" GridPane.rowIndex="9" GridPane.valignment="CENTER" />
-            <Button fx:id="unchangingStructureButton" mnemonicParsing="false"  prefHeight="25.0" prefWidth="139.0" text="Unchanging structures" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-            <Button fx:id="oscillatorsButton" mnemonicParsing="false"  text="Oscillators" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-            <Button fx:id="inconstantStructureButton" mnemonicParsing="false" onAction="#inconstantStructureButtonAction" text="Inconstant structure" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-            <Button fx:id="gliderButton" mnemonicParsing="false" onAction="#gliderButtonAction" text="Glider" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonAction" text="Clear" GridPane.rowIndex="12" />
+            <Button fx:id="nextButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="One step" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonAction" prefHeight="25.0" prefWidth="80.0" text="Start " GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonAction" text="Clear" GridPane.rowIndex="7" />
             <Label text="First choose structure:" />
-            <Button fx:id="gunButton" mnemonicParsing="false" onAction="#GunButtonAction" text="Gun" GridPane.rowIndex="5" />
-            <Label text="After clear choose " GridPane.rowIndex="10" />
-            <Label text="structure ones more" GridPane.rowIndex="11" />
-            <Button fx:id="randomButton" mnemonicParsing="false" onAction="#randomButtonAction" text="Random cells" GridPane.rowIndex="6" />
-            <Button fx:id="StopButton" mnemonicParsing="false" onAction="#StopButtonAction" text="Stop" GridPane.rowIndex="13" />
+            <Label text="After clear choose " GridPane.rowIndex="5" />
+            <Label text="structure ones more" GridPane.rowIndex="6" />
+            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonAction" text="Stop" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="structureChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" />
+            <Slider fx:id="speedSlider" blockIncrement="50.0" max="1000.0" min="100.0" value="500.0" GridPane.rowIndex="8" />
          </children>
       </GridPane>
-      <ChoiceBox fx:id="structureChoiceBox" layoutX="823.0" layoutY="90.0" prefWidth="150.0" />
    </children>
 </Pane>

@@ -6,15 +6,21 @@ import java.util.Random;
  * Created by Kamil on 2018-04-24.
  */
 public class Game {
+
     private Cell[][] cellArray;
-    private int size = 60;
-    private int alive = 1;
-    private int dead = 0;
+    private int size;
+    private int alive;
+    private int dead;
     private int aliveNeighbour;
     private int numberOfRandomCells;
+    private Random random;
 
-    public Game() {
-        numberOfRandomCells = 70;
+    public Game(int size) {
+        random = new Random();
+        this.size = size;
+        alive = 1;
+        dead = 0;
+        numberOfRandomCells = 50;
         cellArray = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -27,7 +33,6 @@ public class Game {
     public void clearCellArray() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-
                 cellArray[i][j].setState(0);
                 cellArray[i][j].setNextState(0);
             }
@@ -35,12 +40,10 @@ public class Game {
     }
 
     public void randomCells() {
-        Random random = new Random();
         for (int i = 0; i < numberOfRandomCells; i++) {
             for (int j = 0; j < numberOfRandomCells; j++) {
                 cellArray[random.nextInt(size)][random.nextInt(size)].setState(1);
             }
-
         }
     }
 
@@ -218,41 +221,5 @@ public class Game {
 
     public void setCell(int i, int j) {
         cellArray[i][j].setState(1);
-    }
-
-    public void setCellArray(Cell[][] cellArray) {
-        this.cellArray = cellArray;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getAlive() {
-        return alive;
-    }
-
-    public void setAlive(int alive) {
-        this.alive = alive;
-    }
-
-    public int getDead() {
-        return dead;
-    }
-
-    public void setDead(int dead) {
-        this.dead = dead;
-    }
-
-    public int getAliveNeighbour() {
-        return aliveNeighbour;
-    }
-
-    public void setAliveNeighbour(int aliveNeighbour) {
-        this.aliveNeighbour = aliveNeighbour;
     }
 }
