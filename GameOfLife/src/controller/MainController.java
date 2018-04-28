@@ -1,6 +1,7 @@
 package controller;
 
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -65,7 +66,9 @@ public class MainController {
         isStartOn = true;
         if (isOneDrawnigThread) {
             drawerTask = new DrawerTask(this);
-            new Thread(drawerTask).start();
+            Thread thread = new Thread(drawerTask);
+            thread.setDaemon(true);
+            thread.start();
             isOneDrawnigThread = false;
         }
         speedSlider.setValue(drawerTask.getSpeed());
@@ -126,14 +129,16 @@ public class MainController {
     }
 
     public void drawCanvas() {
-        clearCanvas();
-        for (int j = 0; j < game.getCellArray().length; j++) {
-            for (int k = 0; k < game.getCellArray().length; k++) {
-                if (game.getCell(j, k) == 1) {
-                    graphicsContext.fillOval(j * cellWidth, k * cellHeight, cellWidth, cellHeight);
+        Platform.runLater(() -> {
+            clearCanvas();
+            for (int j = 0; j < game.getCellArray().length; j++) {
+                for (int k = 0; k < game.getCellArray().length; k++) {
+                    if (game.getCell(j, k) == 1) {
+                        graphicsContext.fillOval(j * cellWidth, k * cellHeight, cellWidth, cellHeight);
+                    }
                 }
             }
-        }
+        });
         game.gameRules();
     }
 
