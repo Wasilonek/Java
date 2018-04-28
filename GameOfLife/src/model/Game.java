@@ -34,10 +34,10 @@ public class Game {
         }
     }
 
-    public void randomCells(){
+    public void randomCells() {
         Random random = new Random();
-        for(int i = 0 ; i < numberOfRandomCells ; i++){
-            for(int j = 0 ; j < numberOfRandomCells ; j++){
+        for (int i = 0; i < numberOfRandomCells; i++) {
+            for (int j = 0; j < numberOfRandomCells; j++) {
                 cellArray[random.nextInt(size)][random.nextInt(size)].setState(1);
             }
 
@@ -152,20 +152,6 @@ public class Game {
 
     }
 
-
-    public void drawCellArray() {
-        for (Cell x[] : cellArray) {
-            for (Cell y : x) {
-                if (y.getState() == alive) {
-                    System.out.print("*");
-                } else {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
-    }
-
     public Cell[][] gameRules() {
 
         int indUp;
@@ -226,12 +212,11 @@ public class Game {
         return cellArray[i][j].getState();
     }
 
-
     public Cell[][] getCellArray() {
         return cellArray;
     }
 
-    public void setCell(int i , int j){
+    public void setCell(int i, int j) {
         cellArray[i][j].setState(1);
     }
 
