@@ -14,9 +14,6 @@ import model.Game;
 public class MainController {
 
     @FXML
-    private Button nextButton;
-
-    @FXML
     private Slider speedSlider;
 
     @FXML
@@ -33,10 +30,14 @@ public class MainController {
 
     private DrawerTask drawerTask;
 
+    private boolean isStartOn, isOneDrawnigThread;
+
 
     public MainController() {
         cellWidth = 5;
         cellHeight = 5;
+        isStartOn = false;
+        isOneDrawnigThread = true;
     }
 
     @FXML
@@ -53,19 +54,29 @@ public class MainController {
 
         setStructureChoiceBoxItems();
         structureChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> setStructure(newValue));
+    }
 
-        nextButton.setOnAction(me4 -> drawCanvas());
+    public void nextButtonAction() {
+        if (!isStartOn)
+            drawCanvas();
     }
 
     public void startButtonAction() {
-        drawerTask = new DrawerTask(graphicsContext, this);
-        new Thread(drawerTask).start();
+        isStartOn = true;
+        if (isOneDrawnigThread) {
+            drawerTask = new DrawerTask(this);
+            new Thread(drawerTask).start();
+            isOneDrawnigThread = false;
+        }
         speedSlider.setValue(drawerTask.getSpeed());
         speedSlider.valueProperty().addListener(observable -> drawerTask.setSpeed((int) speedSlider.getValue()));
     }
 
     public void stopButtonAction() {
+        isStartOn = false;
+        isOneDrawnigThread = true;
         drawerTask.setStopStatus(true);
+
     }
 
     public void clearButtonAction() {

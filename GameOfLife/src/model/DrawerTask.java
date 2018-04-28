@@ -8,14 +8,12 @@ import javafx.scene.canvas.GraphicsContext;
  * Created by Kamil on 2018-04-26.
  */
 public class DrawerTask extends Task {
-    GraphicsContext graphicsContext;
-    MainController mainController;
-    boolean stopStatus;
+    private MainController mainController;
+    private boolean stopStatus;
     private int speed;
 
-    public DrawerTask(GraphicsContext gc, MainController mainController) {
+    public DrawerTask(MainController mainController) {
         this.mainController = mainController;
-        this.graphicsContext = gc;
         stopStatus = false;
         speed = 500;
     }

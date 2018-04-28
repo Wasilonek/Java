@@ -30,7 +30,7 @@
             <RowConstraints maxHeight="50.0" minHeight="2.0" prefHeight="24.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="nextButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="One step" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="25.0" prefWidth="80.0" text="One step" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
             <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonAction" prefHeight="25.0" prefWidth="80.0" text="Start " GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
             <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonAction" text="Clear" GridPane.rowIndex="7" />
             <Label text="First choose structure:" />
