@@ -4,10 +4,10 @@ package model;
  * Created by Kamil on 2018-04-24.
  */
 public class Cell {
-    private int state , nextState;
+    private int state, nextState, id;
 
-    public Cell(){
-        state = nextState = 0;
+    public Cell() {
+        state = nextState = id = 0;
     }
 
     public int getState() {
