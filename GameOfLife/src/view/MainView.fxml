@@ -1,45 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="673.0" prefWidth="1560.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
    <children>
-      <Canvas fx:id="canvas" height="700.0" width="700.0" />
-      <GridPane layoutX="744.0" prefHeight="600.0" prefWidth="150.0">
-        <columnConstraints>
-          <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="0.0" prefWidth="0.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="21.0" valignment="CENTER" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="40.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER" />
-            <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="12.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="128.0" minHeight="0.0" prefHeight="35.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="150.0" minHeight="30.0" prefHeight="150.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="82.0" minHeight="30.0" prefHeight="68.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="15.0" minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="15.0" minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="82.0" minHeight="30.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="50.0" minHeight="2.0" prefHeight="24.0" valignment="CENTER" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="25.0" prefWidth="80.0" text="One step" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonAction" prefHeight="25.0" prefWidth="80.0" text="Start " GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonAction" text="Clear" GridPane.rowIndex="7" />
-            <Label text="First choose structure:" />
-            <Label text="After clear choose " GridPane.rowIndex="5" />
-            <Label text="structure ones more" GridPane.rowIndex="6" />
-            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonAction" text="Stop" GridPane.rowIndex="4" />
-            <ChoiceBox fx:id="structureChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" />
-            <Slider fx:id="speedSlider" blockIncrement="50.0" max="1000.0" min="100.0" value="500.0" GridPane.rowIndex="8" />
-         </children>
-      </GridPane>
+      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Game of Life">
+            <content>
+                <fx:include fx:id="GameOfLifeView" source="./GameOfLifeView.fxml" />
+            </content>
+          </Tab>
+          <Tab text="Grains">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </Pane>

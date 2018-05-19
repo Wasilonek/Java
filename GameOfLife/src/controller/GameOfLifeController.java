@@ -12,7 +12,7 @@ import model.DrawerTask;
 import model.Game;
 
 
-public class MainController {
+public class GameOfLifeController {
 
     @FXML
     private Slider speedSlider;
@@ -34,7 +34,7 @@ public class MainController {
     private boolean isStartOn, isOneDrawnigThread;
 
 
-    public MainController() {
+    public GameOfLifeController() {
         cellWidth = 5;
         cellHeight = 5;
         isStartOn = false;

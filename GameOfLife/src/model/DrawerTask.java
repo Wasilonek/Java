@@ -1,19 +1,18 @@
 package model;
 
-import controller.MainController;
+import controller.GameOfLifeController;
 import javafx.concurrent.Task;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Created by Kamil on 2018-04-26.
  */
 public class DrawerTask extends Task {
-    private MainController mainController;
+    private GameOfLifeController gameOfLifeController;
     private boolean stopStatus;
     private int speed;
 
-    public DrawerTask(MainController mainController) {
-        this.mainController = mainController;
+    public DrawerTask(GameOfLifeController gameOfLifeController) {
+        this.gameOfLifeController = gameOfLifeController;
         stopStatus = false;
         speed = 500;
     }
@@ -21,7 +20,7 @@ public class DrawerTask extends Task {
     @Override
     protected Object call() throws Exception {
         while (!stopStatus) {
-            mainController.drawCanvas();
+            gameOfLifeController.drawCanvas();
             Thread.sleep(speed);
         }
         return 1;
