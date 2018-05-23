@@ -5,7 +5,7 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameOfLifeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameOfLife.controller.GameOfLifeController">
    <children>
       <Canvas fx:id="canvas" height="700.0" width="700.0" />
       <GridPane layoutX="744.0" prefHeight="600.0" prefWidth="150.0">

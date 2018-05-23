@@ -1,4 +1,4 @@
-package model;
+package gameOfLife.model;
 
 /**
  * Created by Kamil on 2018-04-24.

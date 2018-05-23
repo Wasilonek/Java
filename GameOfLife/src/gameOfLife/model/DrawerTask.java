@@ -1,6 +1,6 @@
-package model;
+package gameOfLife.model;
 
-import controller.GameOfLifeController;
+import gameOfLife.controller.GameOfLifeController;
 import javafx.concurrent.Task;
 
 /**

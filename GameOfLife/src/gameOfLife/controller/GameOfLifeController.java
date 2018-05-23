@@ -1,15 +1,14 @@
-package controller;
+package gameOfLife.controller;
 
 
+import gameOfLife.model.DrawerTask;
+import gameOfLife.model.Game;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
-import model.DrawerTask;
-import model.Game;
 
 
 public class GameOfLifeController {

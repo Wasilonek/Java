@@ -1,4 +1,4 @@
-package model;
+package gameOfLife.model;
 
 import java.util.Random;
 
@@ -154,6 +154,7 @@ public class Game {
         cellArray[48][75].setState(alive);
 
     }
+
 
     public Cell[][] gameRules() {
 
