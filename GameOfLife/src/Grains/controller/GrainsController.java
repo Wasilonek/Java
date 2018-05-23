@@ -78,6 +78,8 @@ public class GrainsController {
         widthField.clear();
         heightField.clear();
         growthGrains.createGrid();
+        growthGrains.clearArray();
+        //drawCanvas();
     }
 
 
@@ -85,11 +87,12 @@ public class GrainsController {
         Random random = new Random();
         Platform.runLater(() -> {
             clearCanvas();
-            for (int j = 0; j < growthGrains.getWidth(); j++) {
-                for (int k = 0; k < growthGrains.getHeight(); k++) {
+            for (int k = 0; k < growthGrains.getWidth(); k++) {
+                for (int j = 0; j < growthGrains.getHeight(); j++) {
                     if (growthGrains.getGrainState(j, k) == 1) {
-                        graphicsContext.setFill(Color.rgb(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
+                        //graphicsContext.setFill(Color.rgb(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
                         //graphicsContext.setFill(growthGrains.getColorOfGrain(growthGrains.getGrainId(j,k)));
+                        graphicsContext.setFill(growthGrains.getGrain(j,k).getColor());
                         graphicsContext.fillRect(j * grainWidth, k * grainHeight, grainWidth, grainHeight);
                     }
                 }
@@ -109,7 +112,9 @@ public class GrainsController {
 
     @FXML
     public void setGrainsAction() {
+        growthGrains.clearArray();
         growthGrains.randomGrains();
+        drawCanvas();
     }
 
     public double getCanvasWidth(){

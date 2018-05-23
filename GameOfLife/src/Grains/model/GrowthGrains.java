@@ -35,8 +35,8 @@ public class GrowthGrains {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 grainsArray[i][j] = new Grain();
-//                grainsArray[i][j].setState(0);
-//                grainsArray[i][j].setId(-1);
+                grainsArray[i][j].setState(0);
+                grainsArray[i][j].setId(-1);
             }
         }
     }
@@ -60,8 +60,19 @@ public class GrowthGrains {
             y = random.nextInt(height);
             grainsArray[x][y].setState(1);
             grainsArray[x][y].setId(i);
-            listOfGrains.add(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
+            grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
         }
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getState() == 1)
+                    System.out.print("#");
+                else System.out.print(".");
+            }
+            System.out.println();
+        }
+        System.out.println();
+
     }
 /////////////////////////////////////////////////////////////////////////////
 
@@ -101,7 +112,7 @@ public class GrowthGrains {
 
         Map<Integer, Integer> grainMap = new HashMap<>();
         int id, idToAssign;
-        Color color;
+        boolean isNeig;
 
         int indUp;
         int indDown;
@@ -110,6 +121,7 @@ public class GrowthGrains {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (grainsArray[i][j].getState() == 0) {
+                    isNeig = false;
                     indUp = i - 1;
                     indDown = i + 1;
                     indLeft = j - 1;
@@ -127,49 +139,73 @@ public class GrowthGrains {
                     if (grainsArray[indUp][indLeft].getState() == 1) {
                         id = grainsArray[indUp][indLeft].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[indUp][j].getState() == 1) {
                         id = grainsArray[indUp][j].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[indUp][indRight].getState() == 1) {
                         id = grainsArray[indUp][indRight].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[i][indLeft].getState() == 1) {
                         id = grainsArray[i][indLeft].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[i][indRight].getState() == 1) {
                         id = grainsArray[i][indRight].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[indDown][indLeft].getState() == 1) {
                         id = grainsArray[indDown][indLeft].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[indDown][j].getState() == 1) {
                         id = grainsArray[indDown][j].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
                     if (grainsArray[indDown][indRight].getState() == 1) {
                         id = grainsArray[indDown][indRight].getId();
                         fillMap(id, grainMap);
+                        isNeig = true;
                     }
 
-                    idToAssign = getIDMaxNeighbour(grainMap);
-                    //color =
-                    grainsArray[i][j].setNextState(1);
-                    grainsArray[i][j].setNewId(idToAssign);
+                    if (isNeig) {
+                        idToAssign = getIDMaxNeighbour(grainMap);
+                        grainsArray[i][j].setNextState(1);
+                        grainsArray[i][j].setNewId(idToAssign);
+                        grainsArray[i][j].setNewColor(this.getGrainWithId(idToAssign).getColor());
+                    }
+                }
+            }
+        }
+
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getState() == 0) {
+                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
+                    grainsArray[i][j].setId(grainsArray[i][j].getNewId());
+                    //grainsArray[i][j].setColor(grainsArray[i][j].getNewColor());
+                    grainsArray[i][j].setColor(Color.BLACK);
                 }
             }
         }
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                grainsArray[i][j].setState(grainsArray[i][j].getNextState());
-                grainsArray[i][j].setNewId(grainsArray[i][j].getNextState());
+                if (grainsArray[i][j].getState() == 1)
+                    System.out.print("#");
+                else System.out.print(".");
             }
+            System.out.println();
         }
 
         return grainsArray;
@@ -215,12 +251,26 @@ public class GrowthGrains {
         this.grainsController = grainsController;
     }
 
+    public Grain getGrainWithId(int id) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getId() == id)
+                    return grainsArray[i][j];
+            }
+        }
+        return null;
+    }
+
     public int getGrainState(int i, int j) {
         return grainsArray[i][j].getState();
     }
 
     public int getGrainId(int i, int j) {
         return grainsArray[i][j].getId();
+    }
+
+    public Grain getGrain(int i, int j) {
+        return grainsArray[i][j];
     }
 
     public List<Color> getListOfGrains() {

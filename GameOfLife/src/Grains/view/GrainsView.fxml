@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Grains.controller.GrainsController">
    <children>
-      <Canvas fx:id="grainCanvas" height="600.0" width="600.0" />
+      <Canvas fx:id="grainCanvas" height="500.0" width="500.0" />
       <TextField fx:id="widthField" layoutX="621.0" layoutY="48.0" />
       <TextField fx:id="heightField" layoutX="619.0" layoutY="113.0" />
       <Label layoutX="621.0" layoutY="31.0" text="Width" />

@@ -1,13 +1,19 @@
 package Grains.model;
 
+import javafx.scene.paint.Color;
+
 /**
  * Created by Kamil on 2018-05-23.
  */
 public class Grain {
     private int state, nextState, id , newId;
+    private Color color , newColor;
 
     public Grain() {
-        state = nextState = id = newId = 0;
+        state = nextState = 0;
+        id = newId = - 1;
+        color = Color.GREEN;
+        newColor = Color.WHITE;
     }
 
     public int getState() {
@@ -40,5 +46,21 @@ public class Grain {
 
     public void setNewId(int newId) {
         this.newId = newId;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getNewColor() {
+        return newColor;
+    }
+
+    public void setNewColor(Color newColor) {
+        this.newColor = newColor;
     }
 }
