@@ -9,9 +9,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-
-import java.util.Random;
 
 
 /**
@@ -53,11 +50,11 @@ public class GrainsController {
     @FXML
     void initialize() {
         numberOfGrainsField.setText("10");
-        grainWidth = 1;
-        grainHeight = 1;
+        grainWidth = 2;
+        grainHeight = 2;
         growthGrains = new GrowthGrains(this);
-        maxWidth = 600;
-        maxHeight = 600;
+        maxWidth = 700;
+        maxHeight = 700;
         graphicsContext = grainCanvas.getGraphicsContext2D();
         sizeLabel.setVisible(false);
 
@@ -101,7 +98,8 @@ public class GrainsController {
                 }
             }
         });
-        growthGrains.grainRules();
+        growthGrains.vonNeuman();
+        //growthGrains.moore();
     }
 
     public void clearCanvas() {
