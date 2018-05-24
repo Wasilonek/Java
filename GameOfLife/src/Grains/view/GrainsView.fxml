@@ -7,17 +7,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Grains.controller.GrainsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Grains.controller.GrainsController">
    <children>
-      <Canvas fx:id="grainCanvas" height="500.0" width="500.0" />
-      <TextField fx:id="widthField" layoutX="621.0" layoutY="48.0" />
-      <TextField fx:id="heightField" layoutX="619.0" layoutY="113.0" />
-      <Label layoutX="621.0" layoutY="31.0" text="Width" />
-      <Label layoutX="621.0" layoutY="96.0" text="Height" />
-      <Button fx:id="setSizeButton" layoutX="619.0" layoutY="164.0" mnemonicParsing="false" onAction="#setSizeAction" text="Set size" />
-      <TextField fx:id="numberOfGrainsField" layoutX="617.0" layoutY="217.0" promptText="Number of grains" />
-      <Button fx:id="setGrainsButton" layoutX="621.0" layoutY="266.0" mnemonicParsing="false" onAction="#setGrainsAction" text="Ustaw ziarna" />
-      <Label fx:id="sizeLabel" layoutX="617.0" layoutY="319.0" text="Maksymalny rozmiar to 600x600" />
-      <Button layoutX="621.0" layoutY="291.0" mnemonicParsing="false" onAction="#oneStepAction" text="One step" />
+      <Canvas fx:id="grainCanvas" height="700.0" width="700.0" />
+      <TextField fx:id="widthField" layoutX="779.0" layoutY="31.0" promptText="Width" />
+      <TextField fx:id="heightField" layoutX="779.0" layoutY="56.0" promptText="Height" />
+      <Button fx:id="setSizeButton" layoutX="821.0" layoutY="81.0" mnemonicParsing="false" onAction="#setSizeAction" text="Set size" />
+      <TextField fx:id="numberOfGrainsField" layoutX="779.0" layoutY="147.0" promptText="Number of grains" />
+      <Button fx:id="setGrainsButton" layoutX="780.0" layoutY="179.0" mnemonicParsing="false" onAction="#setGrainsAction" text="Set grains" />
+      <Label fx:id="sizeLabel" layoutX="779.0" layoutY="106.0" text="Maksymalny rozmiar to 700x700" />
+      <Button layoutX="782.0" layoutY="210.0" mnemonicParsing="false" onAction="#oneStepAction" text="One step" />
+      <Button layoutX="780.0" layoutY="241.0" mnemonicParsing="false" onAction="#startAction" text="Start" />
+      <Button layoutX="782.0" layoutY="275.0" mnemonicParsing="false" onAction="#stopAction" text="Stop" />
+      <Slider fx:id="speedSlider" blockIncrement="50.0" layoutX="783.0" layoutY="309.0" max="1000.0" min="100.0" value="500.0" />
    </children>
 </Pane>

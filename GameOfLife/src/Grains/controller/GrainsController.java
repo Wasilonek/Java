@@ -1,11 +1,13 @@
 package Grains.controller;
 
+import Grains.model.GrainsTask;
 import Grains.model.GrowthGrains;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
@@ -32,7 +34,10 @@ public class GrainsController {
     @FXML
     Label sizeLabel;
 
-    private double maxWidth , maxHeight;
+    @FXML
+    Slider speedSlider;
+
+    private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
 
@@ -40,17 +45,24 @@ public class GrainsController {
 
     private int grainWidth, grainHeight;
 
+    private boolean isStartOn, isOneDrawnigThread;
+
+    private GrainsTask grainsTask;
+
 
     @FXML
     void initialize() {
         numberOfGrainsField.setText("10");
-        grainWidth = 5;
-        grainHeight = 5;
+        grainWidth = 1;
+        grainHeight = 1;
         growthGrains = new GrowthGrains(this);
         maxWidth = 600;
         maxHeight = 600;
         graphicsContext = grainCanvas.getGraphicsContext2D();
         sizeLabel.setVisible(false);
+
+        isStartOn = false;
+        isOneDrawnigThread = true;
     }
 
     @FXML
@@ -67,7 +79,7 @@ public class GrainsController {
         if (Double.valueOf(heightField.getText()) > maxHeight) {
             grainCanvas.setHeight(maxHeight);
             sizeLabel.setVisible(true);
-        }else{
+        } else {
             grainCanvas.setHeight(Double.valueOf(heightField.getText()));
         }
         widthField.clear();
@@ -78,17 +90,18 @@ public class GrainsController {
 
 
     public void drawCanvas() {
-        Random random = new Random();
+        Platform.runLater(() -> {
             clearCanvas();
             for (int k = 0; k < growthGrains.getWidth(); k++) {
                 for (int j = 0; j < growthGrains.getHeight(); j++) {
                     if (growthGrains.getGrainState(j, k) == 1) {
-                        graphicsContext.setFill(growthGrains.getGrain(j,k).getColor());
+                        graphicsContext.setFill(growthGrains.getGrain(j, k).getColor());
                         graphicsContext.fillRect(j * grainWidth, k * grainHeight, grainWidth, grainHeight);
                     }
                 }
             }
-        //growthGrains.grainRules();
+        });
+        growthGrains.grainRules();
     }
 
     public void clearCanvas() {
@@ -96,22 +109,44 @@ public class GrainsController {
     }
 
     @FXML
-    public void oneStepAction(){
-        growthGrains.grainRules();
+    public void oneStepAction() {
         drawCanvas();
     }
 
     @FXML
     public void setGrainsAction() {
+        clearCanvas();
         growthGrains.clearArray();
         growthGrains.randomGrains();
         drawCanvas();
     }
 
-    public double getCanvasWidth(){
+    @FXML
+    public void startAction() {
+        isStartOn = true;
+        if (isOneDrawnigThread) {
+            grainsTask = new GrainsTask(this);
+            Thread thread = new Thread(grainsTask);
+            thread.setDaemon(true);
+            thread.start();
+            isOneDrawnigThread = false;
+        }
+        speedSlider.setValue(grainsTask.getSpeed());
+        speedSlider.valueProperty().addListener(observable -> grainsTask.setSpeed((int) speedSlider.getValue()));
+    }
+
+    @FXML
+    public void stopAction() {
+        isStartOn = false;
+        isOneDrawnigThread = true;
+        grainsTask.setStopStatus(true);
+    }
+
+    public double getCanvasWidth() {
         return grainCanvas.getWidth();
     }
-    public double getCanvasHeight(){
+
+    public double getCanvasHeight() {
         return grainCanvas.getHeight();
     }
 
@@ -119,7 +154,7 @@ public class GrainsController {
         return grainCanvas;
     }
 
-    public int getNumberOfGrains(){
+    public int getNumberOfGrains() {
         return Integer.valueOf(numberOfGrainsField.getText());
     }
 
