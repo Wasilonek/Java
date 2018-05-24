@@ -111,7 +111,8 @@ public class GrowthGrains {
     public Grain[][] grainRules() {
 
         Map<Integer, Integer> grainMap = new HashMap<>();
-        int id, idToAssign;
+        int id = 0;
+        int idToAssign = 0 ;
         boolean isNeig;
 
         int indUp;
@@ -120,6 +121,9 @@ public class GrowthGrains {
         int indRight;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+                id = -1;
+                idToAssign = -1;
+                grainMap.clear();
                 if (grainsArray[i][j].getState() == 0) {
                     isNeig = false;
                     indUp = i - 1;
@@ -193,8 +197,8 @@ public class GrowthGrains {
                 if (grainsArray[i][j].getState() == 0) {
                     grainsArray[i][j].setState(grainsArray[i][j].getNextState());
                     grainsArray[i][j].setId(grainsArray[i][j].getNewId());
-                    //grainsArray[i][j].setColor(grainsArray[i][j].getNewColor());
-                    grainsArray[i][j].setColor(Color.BLACK);
+                    grainsArray[i][j].setColor(grainsArray[i][j].getNewColor());
+                    
                 }
             }
         }

@@ -43,14 +43,13 @@ public class GrainsController {
 
     @FXML
     void initialize() {
-        grainWidth = 10;
-        grainHeight = 10;
+        numberOfGrainsField.setText("10");
+        grainWidth = 5;
+        grainHeight = 5;
         growthGrains = new GrowthGrains(this);
         maxWidth = 600;
         maxHeight = 600;
         graphicsContext = grainCanvas.getGraphicsContext2D();
-//        graphicsContext.setFill(Color.GREEN);
-//        graphicsContext.fillRect(0, 0, grainCanvas.getWidth(), grainCanvas.getHeight());
         sizeLabel.setVisible(false);
     }
 
@@ -71,34 +70,25 @@ public class GrainsController {
         }else{
             grainCanvas.setHeight(Double.valueOf(heightField.getText()));
         }
-//
-//        graphicsContext.setFill(Color.rgb(234 , 112,231));
-//        graphicsContext.fillRect(0, 0, grainCanvas.getWidth(), grainCanvas.getHeight());
-//        System.out.println(grainCanvas.getWidth() + " " + grainCanvas.getHeight());
         widthField.clear();
         heightField.clear();
         growthGrains.createGrid();
         growthGrains.clearArray();
-        //drawCanvas();
     }
 
 
     public void drawCanvas() {
         Random random = new Random();
-        Platform.runLater(() -> {
             clearCanvas();
             for (int k = 0; k < growthGrains.getWidth(); k++) {
                 for (int j = 0; j < growthGrains.getHeight(); j++) {
                     if (growthGrains.getGrainState(j, k) == 1) {
-                        //graphicsContext.setFill(Color.rgb(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
-                        //graphicsContext.setFill(growthGrains.getColorOfGrain(growthGrains.getGrainId(j,k)));
                         graphicsContext.setFill(growthGrains.getGrain(j,k).getColor());
                         graphicsContext.fillRect(j * grainWidth, k * grainHeight, grainWidth, grainHeight);
                     }
                 }
             }
-        });
-        growthGrains.grainRules();
+        //growthGrains.grainRules();
     }
 
     public void clearCanvas() {
@@ -107,6 +97,7 @@ public class GrainsController {
 
     @FXML
     public void oneStepAction(){
+        growthGrains.grainRules();
         drawCanvas();
     }
 
