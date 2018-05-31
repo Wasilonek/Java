@@ -40,10 +40,6 @@ public class Grain {
         this.id = id;
     }
 
-    public int getNewId() {
-        return newId;
-    }
-
     public void setNewId(int newId) {
         this.newId = newId;
     }
@@ -54,10 +50,6 @@ public class Grain {
 
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    public Color getNewColor() {
-        return newColor;
     }
 
     public void setNewColor(Color newColor) {

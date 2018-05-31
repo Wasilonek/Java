@@ -21,7 +21,6 @@ public class Main extends Application {
         fxmlLoader.setLocation(this.getClass().getResource("/Grains/view/GrainsView.fxml"));
         Pane pane = fxmlLoader.load();
         Scene scene = new Scene(pane);
-        //primaryStage.setFullScreen(true);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Grains");
         primaryStage.show();

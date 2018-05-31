@@ -2,7 +2,6 @@ package Grains.model;
 
 import Grains.controller.GrainsController;
 import javafx.concurrent.Task;
-import javafx.scene.canvas.*;
 
 
 /**
@@ -16,7 +15,7 @@ public class GrainsTask extends Task {
     public GrainsTask(GrainsController grainsController) {
         this.grainsController = grainsController;
         stopStatus = false;
-        speed = 10;
+        speed = 100;
     }
 
     @Override
@@ -26,18 +25,6 @@ public class GrainsTask extends Task {
             Thread.sleep(speed);
         }
         return 1;
-    }
-
-    public GrainsController getGrainsController() {
-        return grainsController;
-    }
-
-    public void setGrainsController(GrainsController grainsController) {
-        this.grainsController = grainsController;
-    }
-
-    public boolean isStopStatus() {
-        return stopStatus;
     }
 
     public void setStopStatus(boolean stopStatus) {

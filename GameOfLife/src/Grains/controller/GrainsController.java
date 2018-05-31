@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -34,6 +35,9 @@ public class GrainsController {
     @FXML
     Slider speedSlider;
 
+    @FXML
+    ChoiceBox<String> neighboursChioceBox;
+
     private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
@@ -49,7 +53,10 @@ public class GrainsController {
 
     @FXML
     void initialize() {
-        numberOfGrainsField.setText("10");
+
+        setNeighbourChoiceBoxItems();
+        neighboursChioceBox.setValue("Moore");
+        numberOfGrainsField.setText("50");
         grainWidth = 2;
         grainHeight = 2;
         growthGrains = new GrowthGrains(this);
@@ -60,7 +67,10 @@ public class GrainsController {
 
         isStartOn = false;
         isOneDrawnigThread = true;
+
+        //neighboursChioceBox.getSelectionModel().selectedItemProperty().addListener( (v , oldValue , newValue) -> );
     }
+
 
     @FXML
     public void setSizeAction() {
@@ -79,8 +89,6 @@ public class GrainsController {
         } else {
             grainCanvas.setHeight(Double.valueOf(heightField.getText()));
         }
-        widthField.clear();
-        heightField.clear();
         growthGrains.createGrid();
         growthGrains.clearArray();
     }
@@ -91,15 +99,28 @@ public class GrainsController {
             clearCanvas();
             for (int k = 0; k < growthGrains.getWidth(); k++) {
                 for (int j = 0; j < growthGrains.getHeight(); j++) {
-                    if (growthGrains.getGrainState(j, k) == 1) {
-                        graphicsContext.setFill(growthGrains.getGrain(j, k).getColor());
-                        graphicsContext.fillRect(j * grainWidth, k * grainHeight, grainWidth, grainHeight);
+                    if (growthGrains.getGrainState(k, j) == 1) {
+                        graphicsContext.setFill(growthGrains.getGrain(k, j).getColor());
+                        graphicsContext.fillRect(k * grainWidth,j * grainHeight, grainWidth, grainHeight);
                     }
                 }
             }
         });
-        growthGrains.vonNeuman();
-        //growthGrains.moore();
+
+        String choice = neighboursChioceBox.getValue();
+        switch (choice) {
+            case "Moore": {
+                if (growthGrains.moore())
+                    stopAction();
+                break;
+            }
+            case "Von Neuman":{
+                if (growthGrains.vonNeuman())
+                    stopAction();
+                break;
+            }
+        }
+
     }
 
     public void clearCanvas() {
@@ -140,12 +161,8 @@ public class GrainsController {
         grainsTask.setStopStatus(true);
     }
 
-    public double getCanvasWidth() {
-        return grainCanvas.getWidth();
-    }
-
-    public double getCanvasHeight() {
-        return grainCanvas.getHeight();
+    private void setNeighbourChoiceBoxItems() {
+        neighboursChioceBox.getItems().addAll("Moore", "Von Neuman");
     }
 
     public Canvas getGrainCanvas() {
@@ -160,15 +177,8 @@ public class GrainsController {
         return grainWidth;
     }
 
-    public void setGrainWidth(int grainWidth) {
-        this.grainWidth = grainWidth;
-    }
-
     public int getGrainHeight() {
         return grainHeight;
     }
-
-    public void setGrainHeight(int grainHeight) {
-        this.grainHeight = grainHeight;
-    }
 }
+
