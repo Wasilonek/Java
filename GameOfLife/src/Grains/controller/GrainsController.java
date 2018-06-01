@@ -30,13 +30,19 @@ public class GrainsController {
     TextField numberOfGrainsField;
 
     @FXML
-    Label sizeLabel;
+    Label toMuchGrainsLabel;
 
     @FXML
-    Slider speedSlider;
+    Label sizeLabel; // Wyswietlanie błedu o zbyt dużym Canvasie
 
     @FXML
-    ChoiceBox<String> neighboursChioceBox;
+    Slider speedSlider; // Ustawienie szybkości rozrostu
+
+    @FXML
+    ChoiceBox<String> neighboursChioceBox; // Zmiana sąsiedztwa
+
+    @FXML
+    ChoiceBox<String> placementChoiceBox; // Zmiana rozmieszczenia ziaren
 
     private double maxWidth, maxHeight;
 
@@ -46,35 +52,49 @@ public class GrainsController {
 
     private int grainWidth, grainHeight;
 
-    private boolean isStartOn, isOneDrawnigThread;
+    private boolean isStartOn, isOneDrawnigThread; // zarzadzanie startowaniem i zatrzymywaniem wątku
 
     private GrainsTask grainsTask;
-
-    private boolean isFirstLook;
 
 
     @FXML
     void initialize() {
 
-        setNeighbourChoiceBoxItems();
-        neighboursChioceBox.setValue("Pentagonalne Gorne");
-        numberOfGrainsField.setText("50");
-        grainWidth = 2;
-        grainHeight = 2;
-        growthGrains = new GrowthGrains(this);
+        // maksymalna wielkość dla Canvas
         maxWidth = 700;
         maxHeight = 700;
-        graphicsContext = grainCanvas.getGraphicsContext2D();
+
+        toMuchGrainsLabel.setVisible(false);
+
         sizeLabel.setVisible(false);
 
+        // wielkość ziaren
+        grainWidth = 1;
+        grainHeight = 1;
+
+        setNeighbourChoiceBoxItems();
+        neighboursChioceBox.setValue("Moore");
+
+        setPlacementChoiceBoxItems();
+        placementChoiceBox.setValue("Losowe");
+
+        // pole do zmiany ilosci ziaren do losowania
+        numberOfGrainsField.setText("50");
+
+        // obiektu z głowna logika programu
+        growthGrains = new GrowthGrains(this);
+
+
+        graphicsContext = grainCanvas.getGraphicsContext2D();
+
+        // Domyslnie wątek rysujący jest wyłacząny
         isStartOn = false;
         isOneDrawnigThread = true;
-
-        //neighboursChioceBox.getSelectionModel().selectedItemProperty().addListener( (v , oldValue , newValue) -> );
     }
 
+    // Dodawanie ziarna do siatki za pomocą myszki
     @FXML
-    public void addGrainUsingMouse(){
+    public void addGrainUsingMouse() {
         grainCanvas.setOnMousePressed(me -> {
             int x = (int) me.getX();
             int y = (int) me.getY();
@@ -84,13 +104,14 @@ public class GrainsController {
             int gridX = canvasX / grainHeight;
             int gridY = canvasY / grainWidth;
 
-            System.out.println(x + " , " + y);
+            //System.out.println(x + " , " + y);
 
             growthGrains.addSingleGrain(gridX, gridY);
             refreshCanvas();
         });
     }
 
+    // Zmiana rozmiaru Canvasu podczas działania programu
     @FXML
     public void setSizeAction() {
 
@@ -108,12 +129,13 @@ public class GrainsController {
         } else {
             grainCanvas.setHeight(Double.valueOf(heightField.getText()));
         }
+
+        // przebudowanie siatki  po zmianie wielkości
         growthGrains.createGrid();
         growthGrains.clearArray();
     }
 
-
-    public void refreshCanvas(){
+    public void refreshCanvas() {
         clearCanvas();
         for (int i = 0; i < growthGrains.getWidth(); i++) {
             for (int j = 0; j < growthGrains.getHeight(); j++) {
@@ -125,7 +147,7 @@ public class GrainsController {
         }
     }
 
-
+    // Metoda do wizualizacji siatki wykonywana w osobnym wątku
     public void drawCanvas() {
         Platform.runLater(() -> {
             clearCanvas();
@@ -139,7 +161,7 @@ public class GrainsController {
             }
         });
 
-
+        // W zalezności od wybranego rodzaju sasiedztwa przeprowadzam rozrost
         String choice = neighboursChioceBox.getValue();
         switch (choice) {
             case "Moore": {
@@ -167,8 +189,28 @@ public class GrainsController {
                     stopAction();
                 break;
             }
-            case "Pentagonalne Gorne": {
+            case "Pentagonalne Górne": {
                 if (growthGrains.pentagonalTop())
+                    stopAction();
+                break;
+            }
+            case "Pentagonalne Dolne": {
+                if (growthGrains.pentagonalDown())
+                    stopAction();
+                break;
+            }
+            case "Pentagonalne Prawe": {
+                if (growthGrains.pentagonalRight())
+                    stopAction();
+                break;
+            }
+            case "Pentagonalne Lewe": {
+                if (growthGrains.pentagonalLeft())
+                    stopAction();
+                break;
+            }
+            case "Pentagonalne Losowe": {
+                if (growthGrains.pentagonalRandom())
                     stopAction();
                 break;
             }
@@ -187,11 +229,26 @@ public class GrainsController {
 
     @FXML
     public void setGrainsAction() {
+        String choice = placementChoiceBox.getValue();
+
         clearCanvas();
         growthGrains.clearArray();
-        //growthGrains.randomGrains();
-        //growthGrains.createEventlyGrains();
-        growthGrains.createGridWithRadius();
+
+        switch (choice) {
+            case "Losowe": {
+                if(growthGrains.randomGrains()){
+                    toMuchGrainsLabel.setVisible(true);
+                }
+                break;
+            }
+            case "Rownomierne": {
+                growthGrains.createEventlyGrains();
+                break;
+            }
+            case "Z promieniem": {
+                growthGrains.createGridWithRadius();
+            }
+        }
         drawCanvas();
 
     }
@@ -219,7 +276,12 @@ public class GrainsController {
 
     private void setNeighbourChoiceBoxItems() {
         neighboursChioceBox.getItems().addAll("Moore", "Von Neuman", "Heksagonalne Lewe", "Heksagonalne Prawe",
-                "Heksagonalne Losowe", "Pentagonalne Gorne");
+                "Heksagonalne Losowe", "Pentagonalne Górne", "Pentagonalne Dolne", "Pentagonalne Prawe", "Pentagonalne Lewe",
+                "Pentagonalne Losowe");
+    }
+
+    private void setPlacementChoiceBoxItems() {
+        placementChoiceBox.getItems().addAll("Losowe", "Rownomierne", "Z promieniem");
     }
 
     public Canvas getGrainCanvas() {

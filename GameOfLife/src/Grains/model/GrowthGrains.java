@@ -33,7 +33,6 @@ public class GrowthGrains {
     public GrowthGrains(GrainsController grainsController) {
 
 
-
         listOfGrains = new ArrayList<>();
         random = new Random();
 
@@ -79,18 +78,27 @@ public class GrowthGrains {
         }
     }
 
-    public void randomGrains() {
+    public boolean randomGrains() {
         int x, y;
+
+        int maxGrainsNumber = width * height;
+        if (grainsController.getNumberOfGrains() > maxGrainsNumber)
+            return true;
 
         clearArray();
         grainsController.clearCanvas();
         for (int i = 0; i < grainsController.getNumberOfGrains(); i++) {
             x = random.nextInt(width);
             y = random.nextInt(height);
+            if (grainsArray[x][y].getState() == 1) {
+                i--;
+                continue;
+            }
             grainsArray[x][y].setState(1);
             grainsArray[x][y].setId(i);
             grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
         }
+        return false;
 
 //        for (int i = 0; i < width; i++) {
 //            for (int j = 0; j < height; j++) {
@@ -150,15 +158,18 @@ public class GrowthGrains {
     }
 
 
-    public void createGridWithRadius(){
+    public void createGridWithRadius() {
         List<Point> wsio = new ArrayList<>();
         int radius = 100;
         for (int i = 0; i < this.width; i++)
             for (int j = 0; j < this.height; j++)
-                wsio.add(new Point(i,j));
+                wsio.add(new Point(i, j));
 
-        for (int i=0;i<grainsController.getNumberOfGrains();i++) {//i
-            if (wsio.size()<1) { System.out.println("wyczerpano zasob punktow!"); return; }
+        for (int i = 0; i < grainsController.getNumberOfGrains(); i++) {//i
+            if (wsio.size() < 1) {
+                System.out.println("wyczerpano zasob punktow!");
+                return;
+            }
             Point p = wsio.get(random.nextInt(wsio.size()));
 
             grainsArray[p.x][p.y].setState(1);
@@ -166,7 +177,7 @@ public class GrowthGrains {
             grainsArray[p.x][p.y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
 
             Iterator<Point> wsio_i = wsio.iterator();
-            while(wsio_i.hasNext()) {//next
+            while (wsio_i.hasNext()) {//next
                 Point v = wsio_i.next();
                 if (p.inR(v, radius))
                     wsio_i.remove();
@@ -385,7 +396,6 @@ public class GrowthGrains {
 
     }
 
-
     public boolean heksagonalLeft() {
 
         isArrayFull = true;
@@ -598,6 +608,16 @@ public class GrowthGrains {
         return isArrayFull;
     }
 
+    public boolean heksagonalRand() {
+        int choice = random.nextInt(2);
+        if (choice == 0) {
+            return heksagonalLeft();
+        } else {
+            return heksagonalRight();
+        }
+    }
+
+    // Ustawienie jak dla lewego
     public boolean pentagonalTop() {
         isArrayFull = true;
         id = 0;
@@ -702,15 +722,347 @@ public class GrowthGrains {
         return isArrayFull;
     }
 
-    public boolean heksagonalRand() {
-        int choice = random.nextInt(2);
-        if (choice == 0) {
-            return heksagonalLeft();
-        } else {
-            return heksagonalRight();
+    // Ustawienie jak dla prawego
+    public boolean pentagonalDown() {
+        isArrayFull = true;
+        id = 0;
+        idToAssign = 0;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                grainMap.clear();
+                colorMap.clear();
+                if (grainsArray[i][j].getState() == 0) {
+                    isArrayFull = false;
+                    isNeig = false;
+                    indUp = i - 1;
+                    indDown = i + 1;
+                    indLeft = j - 1;
+                    indRight = j + 1;
+
+                    if (i == 0)
+                        indUp = width - 1;
+                    if (i == (width - 1))
+                        indDown = 0;
+                    if (j == 0)
+                        indLeft = height - 1;
+                    if (j == (height - 1))
+                        indRight = 0;
+
+
+                    // Lewy górny
+                    if (grainsArray[indUp][indLeft].getState() == 1) {
+                        id = grainsArray[indUp][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indUp][indLeft].getColor());
+                    }
+                    // srodkowy górny
+                    if (grainsArray[indUp][j].getState() == 1) {
+                        id = grainsArray[indUp][j].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indUp][j].getColor());
+                    }
+                    // prawy górny
+//                    if (grainsArray[indUp][indRight].getState() == 1) {
+//                        id = grainsArray[indUp][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indUp][indRight].getColor());
+//                    }
+                    // lewy
+                    if (grainsArray[i][indLeft].getState() == 1) {
+                        id = grainsArray[i][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[i][indLeft].getColor());
+                    }
+                    // prawy
+//                    if (grainsArray[i][indRight].getState() == 1) {
+//                        id = grainsArray[i][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[i][indRight].getColor());
+//                    }
+                    // lewy dolny
+                    if (grainsArray[indDown][indLeft].getState() == 1) {
+                        id = grainsArray[indDown][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indDown][indLeft].getColor());
+                    }
+                    // srodkowy dolny
+                    if (grainsArray[indDown][j].getState() == 1) {
+                        id = grainsArray[indDown][j].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indDown][j].getColor());
+                    }
+                    // prawy dolny
+//                    if (grainsArray[indDown][indRight].getState() == 1) {
+//                        id = grainsArray[indDown][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indDown][indRight].getColor());
+//                    }
+
+                    if (isNeig) {
+                        idToAssign = getIDMaxNeighbour(grainMap);
+                        grainsArray[i][j].setNextState(1);
+                        grainsArray[i][j].setColor(colorMap.get(idToAssign));
+                        grainsArray[i][j].setId(idToAssign);
+                    }
+                }
+            }
+
         }
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getState() == 0) {
+                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
+                }
+            }
+        }
+        return isArrayFull;
     }
 
+    // Ustawienie jak dla górnego
+    public boolean pentagonalLeft() {
+        isArrayFull = true;
+        id = 0;
+        idToAssign = 0;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                grainMap.clear();
+                colorMap.clear();
+                if (grainsArray[i][j].getState() == 0) {
+                    isArrayFull = false;
+                    isNeig = false;
+                    indUp = i - 1;
+                    indDown = i + 1;
+                    indLeft = j - 1;
+                    indRight = j + 1;
+
+                    if (i == 0)
+                        indUp = width - 1;
+                    if (i == (width - 1))
+                        indDown = 0;
+                    if (j == 0)
+                        indLeft = height - 1;
+                    if (j == (height - 1))
+                        indRight = 0;
+
+
+                    // Lewy górny
+//                    if (grainsArray[indUp][indLeft].getState() == 1) {
+//                        id = grainsArray[indUp][indLeft].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indUp][indLeft].getColor());
+//                    }
+                    // srodkowy górny
+//                    if (grainsArray[indUp][j].getState() == 1) {
+//                        id = grainsArray[indUp][j].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indUp][j].getColor());
+//                    }
+                    // prawy górny
+//                    if (grainsArray[indUp][indRight].getState() == 1) {
+//                        id = grainsArray[indUp][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indUp][indRight].getColor());
+//                    }
+                    // lewy
+                    if (grainsArray[i][indLeft].getState() == 1) {
+                        id = grainsArray[i][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[i][indLeft].getColor());
+                    }
+                    // prawy
+                    if (grainsArray[i][indRight].getState() == 1) {
+                        id = grainsArray[i][indRight].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[i][indRight].getColor());
+                    }
+                    // lewy dolny
+                    if (grainsArray[indDown][indLeft].getState() == 1) {
+                        id = grainsArray[indDown][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indDown][indLeft].getColor());
+                    }
+                    // srodkowy dolny
+                    if (grainsArray[indDown][j].getState() == 1) {
+                        id = grainsArray[indDown][j].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indDown][j].getColor());
+                    }
+                    // prawy dolny
+                    if (grainsArray[indDown][indRight].getState() == 1) {
+                        id = grainsArray[indDown][indRight].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indDown][indRight].getColor());
+                    }
+
+                    if (isNeig) {
+                        idToAssign = getIDMaxNeighbour(grainMap);
+                        grainsArray[i][j].setNextState(1);
+                        grainsArray[i][j].setColor(colorMap.get(idToAssign));
+                        grainsArray[i][j].setId(idToAssign);
+                    }
+                }
+            }
+
+        }
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getState() == 0) {
+                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
+                }
+            }
+        }
+        return isArrayFull;
+    }
+
+    // Ustawienie jak dla dolnego
+    public boolean pentagonalRight() {
+        isArrayFull = true;
+        id = 0;
+        idToAssign = 0;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                grainMap.clear();
+                colorMap.clear();
+                if (grainsArray[i][j].getState() == 0) {
+                    isArrayFull = false;
+                    isNeig = false;
+                    indUp = i - 1;
+                    indDown = i + 1;
+                    indLeft = j - 1;
+                    indRight = j + 1;
+
+                    if (i == 0)
+                        indUp = width - 1;
+                    if (i == (width - 1))
+                        indDown = 0;
+                    if (j == 0)
+                        indLeft = height - 1;
+                    if (j == (height - 1))
+                        indRight = 0;
+
+
+                    // Lewy górny
+                    if (grainsArray[indUp][indLeft].getState() == 1) {
+                        id = grainsArray[indUp][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indUp][indLeft].getColor());
+                    }
+                    // srodkowy górny
+                    if (grainsArray[indUp][j].getState() == 1) {
+                        id = grainsArray[indUp][j].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indUp][j].getColor());
+                    }
+                    // prawy górny
+                    if (grainsArray[indUp][indRight].getState() == 1) {
+                        id = grainsArray[indUp][indRight].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[indUp][indRight].getColor());
+                    }
+                    // lewy
+                    if (grainsArray[i][indLeft].getState() == 1) {
+                        id = grainsArray[i][indLeft].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[i][indLeft].getColor());
+                    }
+                    // prawy
+                    if (grainsArray[i][indRight].getState() == 1) {
+                        id = grainsArray[i][indRight].getId();
+                        fillMap(id, grainMap);
+                        isNeig = true;
+                        colorMap.put(id, grainsArray[i][indRight].getColor());
+                    }
+                    // lewy dolny
+//                if (grainsArray[indDown][indLeft].getState() == 1) {
+//                    id = grainsArray[indDown][indLeft].getId();
+//                    fillMap(id, grainMap);
+//                    isNeig = true;
+//                    colorMap.put(id, grainsArray[indDown][indLeft].getColor());
+//                }
+                    // srodkowy dolny
+//                if (grainsArray[indDown][j].getState() == 1) {
+//                    id = grainsArray[indDown][j].getId();
+//                    fillMap(id, grainMap);
+//                    isNeig = true;
+//                    colorMap.put(id, grainsArray[indDown][j].getColor());
+//                }
+                    // prawy dolny
+//                    if (grainsArray[indDown][indRight].getState() == 1) {
+//                        id = grainsArray[indDown][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indDown][indRight].getColor());
+//                    }
+
+                    if (isNeig) {
+                        idToAssign = getIDMaxNeighbour(grainMap);
+                        grainsArray[i][j].setNextState(1);
+                        grainsArray[i][j].setColor(colorMap.get(idToAssign));
+                        grainsArray[i][j].setId(idToAssign);
+                    }
+                }
+            }
+        }
+
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getState() == 0) {
+                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
+                }
+            }
+        }
+        return isArrayFull;
+    }
+
+    public boolean pentagonalRandom() {
+        int choice = random.nextInt(4);
+
+        boolean isFull = false;
+
+        switch (choice) {
+            case 1: {
+                isFull = pentagonalTop();
+                break;
+            }
+            case 2: {
+                isFull = pentagonalRight();
+                break;
+            }
+            case 3: {
+                isFull = pentagonalLeft();
+                break;
+            }
+            case 4: {
+                isFull = pentagonalDown();
+                break;
+            }
+        }
+        return isFull;
+    }
 
     public int getWidth() {
         return width;
