@@ -85,18 +85,19 @@ public class GrowthGrains {
         if (grainsController.getNumberOfGrains() > maxGrainsNumber)
             return true;
 
+
         clearArray();
         grainsController.clearCanvas();
-        for (int i = 0; i < grainsController.getNumberOfGrains(); i++) {
+        for (int i = 0; i < grainsController.getNumberOfGrains(); ) {
             x = random.nextInt(width);
             y = random.nextInt(height);
             if (grainsArray[x][y].getState() == 1) {
-                i--;
                 continue;
             }
             grainsArray[x][y].setState(1);
             grainsArray[x][y].setId(i);
             grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
+            i++;
         }
         return false;
 
@@ -220,7 +221,113 @@ public class GrowthGrains {
 
 ////////////////////////////////////////////////////////////////////////////
 
-    public boolean vonNeuman() {
+    // Periodyczność / Zamkniete ustawia indeksy krawedzi
+    public void setEdge(boolean edge, int i, int j) {
+
+        isArrayFull = false;
+        isNeig = false;
+        indUp = i - 1;
+        indDown = i + 1;
+        indLeft = j - 1;
+        indRight = j + 1;
+
+        if (edge) {
+            if (i == 0)
+                indUp = width - 1;
+            if (i == (width - 1))
+                indDown = 0;
+            if (j == 0)
+                indLeft = height - 1;
+            if (j == (height - 1))
+                indRight = 0;
+        } else {
+            if (i == 0)
+                indUp = -1;
+            if (i == (width - 1))
+                indDown = -1;
+            if (j == 0)
+                indLeft = -1;
+            if (j == (height - 1))
+                indRight = -1;
+        }
+    }
+
+    // zamiana stanów z kolejnej epoki
+    public void copyArray() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (grainsArray[i][j].getState() == 0) {
+                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
+                }
+            }
+        }
+    }
+
+
+    public void checkLeftUpperNeigbour(int indUp, int indLeft) {
+        if (!(indUp == -1) || !(indLeft == -1)) {
+            if (grainsArray[indUp][indLeft].getState() == 1) {
+                id = grainsArray[indUp][indLeft].getId();
+                fillMap(id, grainMap);
+                isNeig = true;
+                colorMap.put(id, grainsArray[indUp][indLeft].getColor());
+            }
+        }
+    }
+
+    public boolean checkMiddleUpperNeigbour(int indUp, int j) {
+        if (!(indUp == -1)) {
+            if (grainsArray[indUp][j].getState() == 1) {
+                id = grainsArray[indUp][j].getId();
+                fillMap(id, grainMap);
+                //isNeig = true;
+                colorMap.put(id, grainsArray[indUp][j].getColor());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void checkRightUpperNeigbour(int indUp, int indRight) {
+        if (!(indUp == -1) || !(indRight == -1)) {
+            if (grainsArray[indUp][indRight].getState() == 1) {
+                id = grainsArray[indUp][indRight].getId();
+                fillMap(id, grainMap);
+                isNeig = true;
+                colorMap.put(id, grainsArray[indUp][indRight].getColor());
+            }
+        }
+    }
+
+    public void checkLeftNeigbour(int i, int indLeft) {
+        if (!(indLeft == -1)) {
+            if (grainsArray[i][indLeft].getState() == 1) {
+                id = grainsArray[i][indLeft].getId();
+                fillMap(id, grainMap);
+                isNeig = true;
+                colorMap.put(id, grainsArray[i][indLeft].getColor());
+            }
+        }
+
+    }
+
+    public void checkRightNeigbour() {
+
+    }
+
+    public void checkLeftBottomNeigbour() {
+
+    }
+
+    public void checkMiddleBottomNeigbour() {
+
+    }
+
+    public void checkRightBottomNeigbour() {
+
+    }
+
+    public boolean vonNeuman(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -230,47 +337,18 @@ public class GrowthGrains {
                 grainMap.clear();
                 colorMap.clear();
                 if (grainsArray[i][j].getState() == 0) {
-                    isArrayFull = false;
-                    isNeig = false;
-                    indUp = i - 1;
-                    indDown = i + 1;
-                    indLeft = j - 1;
-                    indRight = j + 1;
 
-                    if (i == 0)
-                        indUp = width - 1;
-                    if (i == (width - 1))
-                        indDown = 0;
-                    if (j == 0)
-                        indLeft = height - 1;
-                    if (j == (height - 1))
-                        indRight = 0;
+                    setEdge(isClose, i, j);
 
 
-                    if (grainsArray[indUp][indLeft].getState() == 1) {
-                        id = grainsArray[indUp][indLeft].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indUp][indLeft].getColor());
-                    }
-                    if (grainsArray[indUp][j].getState() == 1) {
-                        id = grainsArray[indUp][j].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indUp][j].getColor());
-                    }
-                    if (grainsArray[indUp][indRight].getState() == 1) {
-                        id = grainsArray[indUp][indRight].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indUp][indRight].getColor());
-                    }
-                    if (grainsArray[i][indLeft].getState() == 1) {
-                        id = grainsArray[i][indLeft].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[i][indLeft].getColor());
-                    }
+//                    checkLeftUpperNeigbour(indUp, indDown);
+//
+//                    checkMiddleUpperNeigbour(indUp, j);
+//
+//                    checkRightUpperNeigbour(indUp, indRight);
+//
+//                    checkLeftNeigbour(i , indLeft);
+
                     if (grainsArray[i][indRight].getState() == 1) {
                         id = grainsArray[i][indRight].getId();
                         fillMap(id, grainMap);
@@ -307,18 +385,12 @@ public class GrowthGrains {
 
         }
 
+        copyArray();
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (grainsArray[i][j].getState() == 0) {
-                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
-                }
-            }
-        }
         return isArrayFull;
     }
 
-    public boolean moore() {
+    public boolean moore(boolean isClose) {
 
         isArrayFull = true;
         id = 0;
@@ -329,48 +401,44 @@ public class GrowthGrains {
                 grainMap.clear();
                 colorMap.clear();
                 if (grainsArray[i][j].getState() == 0) {
-                    isArrayFull = false;
-                    isNeig = false;
-                    indUp = i - 1;
-                    indDown = i + 1;
-                    indLeft = j - 1;
-                    indRight = j + 1;
 
-                    if (i == 0)
-                        indUp = width - 1;
-                    if (i == (width - 1))
-                        indDown = 0;
-                    if (j == 0)
-                        indLeft = height - 1;
-                    if (j == (height - 1))
-                        indRight = 0;
+                    setEdge(isClose, i, j);
 
+                    isNeig = checkMiddleUpperNeigbour(indUp , j);
 
-                    if (grainsArray[indUp][j].getState() == 1) {
-                        id = grainsArray[indUp][j].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indUp][j].getColor());
+//                    if (!(indUp == -1)) {
+//                        if (grainsArray[indUp][j].getState() == 1) {
+//                            id = grainsArray[indUp][j].getId();
+//                            fillMap(id, grainMap);
+//                            isNeig = true;
+//                            colorMap.put(id, grainsArray[indUp][j].getColor());
+//                        }
+//                    }
+//
+                    if (!(indLeft == -1)) {
+                        if (grainsArray[i][indLeft].getState() == 1) {
+                            id = grainsArray[i][indLeft].getId();
+                            fillMap(id, grainMap);
+                            isNeig = true;
+                            colorMap.put(id, grainsArray[i][indLeft].getColor());
+                        }
+                    }
+                    if (!(indRight == -1)) {
+                        if (grainsArray[i][indRight].getState() == 1) {
+                            id = grainsArray[i][indRight].getId();
+                            fillMap(id, grainMap);
+                            isNeig = true;
+                            colorMap.put(id, grainsArray[i][indRight].getColor());
+                        }
                     }
 
-                    if (grainsArray[i][indLeft].getState() == 1) {
-                        id = grainsArray[i][indLeft].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[i][indLeft].getColor());
-                    }
-                    if (grainsArray[i][indRight].getState() == 1) {
-                        id = grainsArray[i][indRight].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[i][indRight].getColor());
-                    }
-
-                    if (grainsArray[indDown][j].getState() == 1) {
-                        id = grainsArray[indDown][j].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indDown][j].getColor());
+                    if (!(indDown == -1)) {
+                        if (grainsArray[indDown][j].getState() == 1) {
+                            id = grainsArray[indDown][j].getId();
+                            fillMap(id, grainMap);
+                            isNeig = true;
+                            colorMap.put(id, grainsArray[indDown][j].getColor());
+                        }
                     }
 
 
@@ -384,19 +452,13 @@ public class GrowthGrains {
             }
         }
 
+        copyArray();
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (grainsArray[i][j].getState() == 0) {
-                    grainsArray[i][j].setState(grainsArray[i][j].getNextState());
-                }
-            }
-        }
         return isArrayFull;
 
     }
 
-    public boolean heksagonalLeft() {
+    public boolean heksagonalLeft(boolean isClose) {
 
         isArrayFull = true;
         id = 0;
@@ -502,7 +564,7 @@ public class GrowthGrains {
         return isArrayFull;
     }
 
-    public boolean heksagonalRight() {
+    public boolean heksagonalRight(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -608,17 +670,17 @@ public class GrowthGrains {
         return isArrayFull;
     }
 
-    public boolean heksagonalRand() {
+    public boolean heksagonalRand(boolean isClose) {
         int choice = random.nextInt(2);
         if (choice == 0) {
-            return heksagonalLeft();
+            return heksagonalLeft(grainsController.getPeriodicityCheckBox().isSelected());
         } else {
-            return heksagonalRight();
+            return heksagonalRight(grainsController.getPeriodicityCheckBox().isSelected());
         }
     }
 
     // Ustawienie jak dla lewego
-    public boolean pentagonalTop() {
+    public boolean pentagonalTop(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -723,7 +785,7 @@ public class GrowthGrains {
     }
 
     // Ustawienie jak dla prawego
-    public boolean pentagonalDown() {
+    public boolean pentagonalDown(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -828,7 +890,7 @@ public class GrowthGrains {
     }
 
     // Ustawienie jak dla górnego
-    public boolean pentagonalLeft() {
+    public boolean pentagonalLeft(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -933,7 +995,7 @@ public class GrowthGrains {
     }
 
     // Ustawienie jak dla dolnego
-    public boolean pentagonalRight() {
+    public boolean pentagonalRight(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -1038,26 +1100,26 @@ public class GrowthGrains {
         return isArrayFull;
     }
 
-    public boolean pentagonalRandom() {
+    public boolean pentagonalRandom(boolean isClose) {
         int choice = random.nextInt(4);
 
         boolean isFull = false;
 
         switch (choice) {
             case 1: {
-                isFull = pentagonalTop();
+                isFull = pentagonalTop(grainsController.getPeriodicityCheckBox().isSelected());
                 break;
             }
             case 2: {
-                isFull = pentagonalRight();
+                isFull = pentagonalRight(grainsController.getPeriodicityCheckBox().isSelected());
                 break;
             }
             case 3: {
-                isFull = pentagonalLeft();
+                isFull = pentagonalLeft(grainsController.getPeriodicityCheckBox().isSelected());
                 break;
             }
             case 4: {
-                isFull = pentagonalDown();
+                isFull = pentagonalDown(grainsController.getPeriodicityCheckBox().isSelected());
                 break;
             }
         }

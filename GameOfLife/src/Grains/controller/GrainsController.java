@@ -6,10 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 
 /**
@@ -44,6 +41,9 @@ public class GrainsController {
     @FXML
     ChoiceBox<String> placementChoiceBox; // Zmiana rozmieszczenia ziaren
 
+    @FXML
+    CheckBox periodicityCheckBox;
+
     private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
@@ -69,14 +69,17 @@ public class GrainsController {
         sizeLabel.setVisible(false);
 
         // wielkość ziaren
-        grainWidth = 1;
-        grainHeight = 1;
+        grainWidth = 2;
+        grainHeight = 2;
 
         setNeighbourChoiceBoxItems();
         neighboursChioceBox.setValue("Moore");
 
         setPlacementChoiceBoxItems();
         placementChoiceBox.setValue("Losowe");
+
+        // zmiana periodyczności na zamkniete
+        periodicityCheckBox.setSelected(true);
 
         // pole do zmiany ilosci ziaren do losowania
         numberOfGrainsField.setText("50");
@@ -165,52 +168,52 @@ public class GrainsController {
         String choice = neighboursChioceBox.getValue();
         switch (choice) {
             case "Moore": {
-                if (growthGrains.moore())
+                if (growthGrains.moore(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Von Neuman": {
-                if (growthGrains.vonNeuman())
+                if (growthGrains.vonNeuman(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Heksagonalne Lewe": {
-                if (growthGrains.heksagonalLeft())
+                if (growthGrains.heksagonalLeft(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Heksagonalne Prawe": {
-                if (growthGrains.heksagonalRight())
+                if (growthGrains.heksagonalRight(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Heksagonalne Losowe": {
-                if (growthGrains.heksagonalRand())
+                if (growthGrains.heksagonalRand(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Pentagonalne Górne": {
-                if (growthGrains.pentagonalTop())
+                if (growthGrains.pentagonalTop(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Pentagonalne Dolne": {
-                if (growthGrains.pentagonalDown())
+                if (growthGrains.pentagonalDown(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Pentagonalne Prawe": {
-                if (growthGrains.pentagonalRight())
+                if (growthGrains.pentagonalRight(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Pentagonalne Lewe": {
-                if (growthGrains.pentagonalLeft())
+                if (growthGrains.pentagonalLeft(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
             case "Pentagonalne Losowe": {
-                if (growthGrains.pentagonalRandom())
+                if (growthGrains.pentagonalRandom(periodicityCheckBox.isSelected()))
                     stopAction();
                 break;
             }
@@ -298,6 +301,10 @@ public class GrainsController {
 
     public int getGrainHeight() {
         return grainHeight;
+    }
+
+    public CheckBox getPeriodicityCheckBox() {
+        return periodicityCheckBox;
     }
 }
 
