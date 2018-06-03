@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Grains.controller.GrainsController">
    <children>
-      <Canvas fx:id="grainCanvas" height="700.0" layoutX="278.0" layoutY="6.0" onMouseClicked="#addGrainUsingMouse" width="700.0" />
+      <Canvas fx:id="grainCanvas" height="700.0" onMouseClicked="#addGrainUsingMouse" width="700.0" />
       <TextField fx:id="widthField" layoutX="994.0" layoutY="14.0" promptText="Width" />
       <TextField fx:id="heightField" layoutX="994.0" layoutY="39.0" promptText="Height" />
       <Button fx:id="setSizeButton" layoutX="1036.0" layoutY="64.0" mnemonicParsing="false" onAction="#setSizeAction" text="Set size" />
@@ -42,5 +42,11 @@
       <Label fx:id="toMuchGrainsLabel" layoutX="993.0" layoutY="269.0" text="Zbyt mała powierzchnia aby rozmieścić ziarna" />
       <TextField fx:id="radiusTextField" layoutX="994.0" layoutY="299.0" promptText="Promień" />
       <CheckBox fx:id="periodicityCheckBox" layoutX="993.0" layoutY="342.0" mnemonicParsing="false" text="Periodyczność" />
+      <ScrollPane fx:id="scrollPane" prefHeight="700.0" prefWidth="900.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+      <Button layoutX="993.0" layoutY="595.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
    </children>
 </Pane>

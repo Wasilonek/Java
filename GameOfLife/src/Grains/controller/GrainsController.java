@@ -3,10 +3,15 @@ package Grains.controller;
 import Grains.model.GrainsTask;
 import Grains.model.GrowthGrains;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
+
+import javax.imageio.ImageIO;
+import java.io.File;
 
 
 /**
@@ -47,6 +52,9 @@ public class GrainsController {
     @FXML
     TextField radiusTextField;
 
+    @FXML
+    ScrollPane scrollPane;
+
     private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
@@ -59,13 +67,14 @@ public class GrainsController {
 
     private GrainsTask grainsTask;
 
+    private WritableImage writableImage;
 
     @FXML
     void initialize() {
 
         // maksymalna wielkość dla Canvas
-        maxWidth = 700;
-        maxHeight = 700;
+        maxWidth = 1000;
+        maxHeight = 1000;
 
         toMuchGrainsLabel.setVisible(false);
 
@@ -93,6 +102,8 @@ public class GrainsController {
         // obiektu z głowna logika programu
         growthGrains = new GrowthGrains(this);
 
+
+        scrollPane.setContent(grainCanvas);
 
         graphicsContext = grainCanvas.getGraphicsContext2D();
 
@@ -282,6 +293,19 @@ public class GrainsController {
         isOneDrawnigThread = true;
         grainsTask.setStopStatus(true);
     }
+
+    public void saveButtonAction(){
+        writableImage = new WritableImage((int)grainCanvas.getWidth(), (int)grainCanvas.getHeight());
+        grainCanvas.snapshot(null, writableImage);
+
+        File file = new File("CanvasImage.png");
+
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
+        } catch (Exception s) {
+        }
+    }
+
 
     private void setNeighbourChoiceBoxItems() {
         neighboursChioceBox.getItems().addAll("Moore", "Von Neuman", "Heksagonalne Lewe", "Heksagonalne Prawe",
