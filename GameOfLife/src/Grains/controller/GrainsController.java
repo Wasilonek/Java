@@ -44,6 +44,9 @@ public class GrainsController {
     @FXML
     CheckBox periodicityCheckBox;
 
+    @FXML
+    TextField radiusTextField;
+
     private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
@@ -83,6 +86,9 @@ public class GrainsController {
 
         // pole do zmiany ilosci ziaren do losowania
         numberOfGrainsField.setText("50");
+
+        // domyslna wartosc promienia
+        radiusTextField.setText("30");
 
         // obiektu z głowna logika programu
         growthGrains = new GrowthGrains(this);
@@ -239,7 +245,7 @@ public class GrainsController {
 
         switch (choice) {
             case "Losowe": {
-                if(growthGrains.randomGrains()){
+                if (growthGrains.randomGrains()) {
                     toMuchGrainsLabel.setVisible(true);
                 }
                 break;
@@ -249,7 +255,7 @@ public class GrainsController {
                 break;
             }
             case "Z promieniem": {
-                growthGrains.createGridWithRadius();
+                growthGrains.createGridWithRadius(Integer.parseInt(radiusTextField.getText()));
             }
         }
         drawCanvas();

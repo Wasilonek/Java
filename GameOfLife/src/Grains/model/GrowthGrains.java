@@ -21,6 +21,7 @@ public class GrowthGrains {
     int id = 0;
     int idToAssign = 0;
     boolean isNeig;
+    int hasGrainHasNeigbours;
 
     int indUp;
     int indDown;
@@ -100,17 +101,6 @@ public class GrowthGrains {
             i++;
         }
         return false;
-
-//        for (int i = 0; i < width; i++) {
-//            for (int j = 0; j < height; j++) {
-//                if (grainsArray[i][j].getState() == 1)
-//                    System.out.print("#");
-//                else System.out.print(".");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
-
     }
 
     public void addSingleGrain(int x, int y) {
@@ -159,9 +149,8 @@ public class GrowthGrains {
     }
 
 
-    public void createGridWithRadius() {
+    public void createGridWithRadius(int radius) {
         List<Point> wsio = new ArrayList<>();
-        int radius = 100;
         for (int i = 0; i < this.width; i++)
             for (int j = 0; j < this.height; j++)
                 wsio.add(new Point(i, j));
@@ -264,15 +253,16 @@ public class GrowthGrains {
     }
 
 
-    public void checkLeftUpperNeigbour(int indUp, int indLeft) {
+    public boolean checkLeftUpperNeigbour(int indUp, int indLeft) {
         if (!(indUp == -1) || !(indLeft == -1)) {
             if (grainsArray[indUp][indLeft].getState() == 1) {
                 id = grainsArray[indUp][indLeft].getId();
                 fillMap(id, grainMap);
-                isNeig = true;
                 colorMap.put(id, grainsArray[indUp][indLeft].getColor());
+                return true;
             }
         }
+        return false;
     }
 
     public boolean checkMiddleUpperNeigbour(int indUp, int j) {
@@ -280,7 +270,6 @@ public class GrowthGrains {
             if (grainsArray[indUp][j].getState() == 1) {
                 id = grainsArray[indUp][j].getId();
                 fillMap(id, grainMap);
-                //isNeig = true;
                 colorMap.put(id, grainsArray[indUp][j].getColor());
                 return true;
             }
@@ -288,93 +277,156 @@ public class GrowthGrains {
         return false;
     }
 
-    public void checkRightUpperNeigbour(int indUp, int indRight) {
+    public boolean checkRightUpperNeigbour(int indUp, int indRight) {
         if (!(indUp == -1) || !(indRight == -1)) {
             if (grainsArray[indUp][indRight].getState() == 1) {
                 id = grainsArray[indUp][indRight].getId();
                 fillMap(id, grainMap);
-                isNeig = true;
                 colorMap.put(id, grainsArray[indUp][indRight].getColor());
+                return true;
             }
         }
+        return false;
     }
 
-    public void checkLeftNeigbour(int i, int indLeft) {
+    public boolean checkLeftNeigbour(int i, int indLeft) {
         if (!(indLeft == -1)) {
             if (grainsArray[i][indLeft].getState() == 1) {
                 id = grainsArray[i][indLeft].getId();
                 fillMap(id, grainMap);
-                isNeig = true;
                 colorMap.put(id, grainsArray[i][indLeft].getColor());
+                return true;
             }
         }
+        return false;
+    }
+
+    public boolean checkRightNeigbour(int i, int indRight) {
+        if (!(indRight == -1)) {
+            if (grainsArray[i][indRight].getState() == 1) {
+                id = grainsArray[i][indRight].getId();
+                fillMap(id, grainMap);
+                colorMap.put(id, grainsArray[i][indRight].getColor());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkLeftBottomNeigbour(int indDown, int indLeft) {
+        if (!(indDown == -1) || !(indLeft == -1)) {
+            if (grainsArray[indDown][indLeft].getState() == 1) {
+                id = grainsArray[indDown][indLeft].getId();
+                fillMap(id, grainMap);
+                colorMap.put(id, grainsArray[indDown][indLeft].getColor());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkMiddleBottomNeigbour(int indDown, int j) {
+        if (!(indDown == -1)) {
+            if (grainsArray[indDown][j].getState() == 1) {
+                id = grainsArray[indDown][j].getId();
+                fillMap(id, grainMap);
+                colorMap.put(id, grainsArray[indDown][j].getColor());
+                return true;
+            }
+        }
+        return false;
 
     }
 
-    public void checkRightNeigbour() {
-
-    }
-
-    public void checkLeftBottomNeigbour() {
-
-    }
-
-    public void checkMiddleBottomNeigbour() {
-
-    }
-
-    public void checkRightBottomNeigbour() {
-
+    public boolean checkRightBottomNeigbour(int indDown , int indRight) {
+        if (!(indRight == -1) || !(indDown == -1)) {
+            if (grainsArray[indDown][indRight].getState() == 1) {
+                id = grainsArray[indDown][indRight].getId();
+                fillMap(id, grainMap);
+                colorMap.put(id, grainsArray[indDown][indRight].getColor());
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean vonNeuman(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
+        hasGrainHasNeigbours = 0;
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 grainMap.clear();
                 colorMap.clear();
+                hasGrainHasNeigbours = 0;
                 if (grainsArray[i][j].getState() == 0) {
 
                     setEdge(isClose, i, j);
 
 
-//                    checkLeftUpperNeigbour(indUp, indDown);
-//
-//                    checkMiddleUpperNeigbour(indUp, j);
-//
-//                    checkRightUpperNeigbour(indUp, indRight);
-//
-//                    checkLeftNeigbour(i , indLeft);
-
-                    if (grainsArray[i][indRight].getState() == 1) {
-                        id = grainsArray[i][indRight].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[i][indRight].getColor());
-                    }
-                    if (grainsArray[indDown][indLeft].getState() == 1) {
-                        id = grainsArray[indDown][indLeft].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indDown][indLeft].getColor());
-                    }
-                    if (grainsArray[indDown][j].getState() == 1) {
-                        id = grainsArray[indDown][j].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indDown][j].getColor());
-                    }
-                    if (grainsArray[indDown][indRight].getState() == 1) {
-                        id = grainsArray[indDown][indRight].getId();
-                        fillMap(id, grainMap);
-                        isNeig = true;
-                        colorMap.put(id, grainsArray[indDown][indRight].getColor());
+                    if (checkLeftUpperNeigbour(indUp, indLeft)) {
+                        hasGrainHasNeigbours++;
                     }
 
-                    if (isNeig) {
+                    if (checkMiddleUpperNeigbour(indUp, j)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkRightUpperNeigbour(indUp, indRight)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkLeftNeigbour(i, indLeft)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkRightNeigbour(i, indRight)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkLeftBottomNeigbour(indDown, indLeft)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkMiddleBottomNeigbour(indDown, j)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkRightBottomNeigbour(indDown, indRight)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+
+
+
+//                    if (grainsArray[i][indRight].getState() == 1) {
+//                        id = grainsArray[i][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[i][indRight].getColor());
+//                    }
+//                    if (grainsArray[indDown][indLeft].getState() == 1) {
+//                        id = grainsArray[indDown][indLeft].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indDown][indLeft].getColor());
+//                    }
+//                    if (grainsArray[indDown][j].getState() == 1) {
+//                        id = grainsArray[indDown][j].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indDown][j].getColor());
+//                    }
+//                    if (grainsArray[indDown][indRight].getState() == 1) {
+//                        id = grainsArray[indDown][indRight].getId();
+//                        fillMap(id, grainMap);
+//                        isNeig = true;
+//                        colorMap.put(id, grainsArray[indDown][indRight].getColor());
+//                    }
+
+                    if (hasGrainHasNeigbours > 0) {
                         idToAssign = getIDMaxNeighbour(grainMap);
                         grainsArray[i][j].setNextState(1);
                         grainsArray[i][j].setColor(colorMap.get(idToAssign));
@@ -395,16 +447,28 @@ public class GrowthGrains {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
+        hasGrainHasNeigbours = 0;
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 grainMap.clear();
                 colorMap.clear();
+                hasGrainHasNeigbours = 0;
                 if (grainsArray[i][j].getState() == 0) {
 
                     setEdge(isClose, i, j);
 
-                    isNeig = checkMiddleUpperNeigbour(indUp , j);
+                    if (checkMiddleUpperNeigbour(indUp, j))
+                        hasGrainHasNeigbours++;
+
+                    if (checkLeftNeigbour(i, indLeft))
+                        hasGrainHasNeigbours++;
+
+                    if (checkRightNeigbour(i, indRight))
+                        hasGrainHasNeigbours++;
+
+                    if (checkMiddleBottomNeigbour(indDown, j))
+                        hasGrainHasNeigbours++;
 
 //                    if (!(indUp == -1)) {
 //                        if (grainsArray[indUp][j].getState() == 1) {
@@ -415,34 +479,34 @@ public class GrowthGrains {
 //                        }
 //                    }
 //
-                    if (!(indLeft == -1)) {
-                        if (grainsArray[i][indLeft].getState() == 1) {
-                            id = grainsArray[i][indLeft].getId();
-                            fillMap(id, grainMap);
-                            isNeig = true;
-                            colorMap.put(id, grainsArray[i][indLeft].getColor());
-                        }
-                    }
-                    if (!(indRight == -1)) {
-                        if (grainsArray[i][indRight].getState() == 1) {
-                            id = grainsArray[i][indRight].getId();
-                            fillMap(id, grainMap);
-                            isNeig = true;
-                            colorMap.put(id, grainsArray[i][indRight].getColor());
-                        }
-                    }
+//                    if (!(indLeft == -1)) {
+//                        if (grainsArray[i][indLeft].getState() == 1) {
+//                            id = grainsArray[i][indLeft].getId();
+//                            fillMap(id, grainMap);
+//                            isNeig = true;
+//                            colorMap.put(id, grainsArray[i][indLeft].getColor());
+//                        }
+//                    }
+//                    if (!(indRight == -1)) {
+//                        if (grainsArray[i][indRight].getState() == 1) {
+//                            id = grainsArray[i][indRight].getId();
+//                            fillMap(id, grainMap);
+//                            isNeig = true;
+//                            colorMap.put(id, grainsArray[i][indRight].getColor());
+//                        }
+//                    }
 
-                    if (!(indDown == -1)) {
-                        if (grainsArray[indDown][j].getState() == 1) {
-                            id = grainsArray[indDown][j].getId();
-                            fillMap(id, grainMap);
-                            isNeig = true;
-                            colorMap.put(id, grainsArray[indDown][j].getColor());
-                        }
-                    }
+//                    if (!(indDown == -1)) {
+//                        if (grainsArray[indDown][j].getState() == 1) {
+//                            id = grainsArray[indDown][j].getId();
+//                            fillMap(id, grainMap);
+//                            isNeig = true;
+//                            colorMap.put(id, grainsArray[indDown][j].getColor());
+//                        }
+//                    }
 
 
-                    if (isNeig) {
+                    if (hasGrainHasNeigbours > 0) {
                         idToAssign = getIDMaxNeighbour(grainMap);
                         grainsArray[i][j].setNextState(1);
                         grainsArray[i][j].setColor(colorMap.get(idToAssign));
