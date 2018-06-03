@@ -55,6 +55,9 @@ public class GrainsController {
     @FXML
     ScrollPane scrollPane;
 
+    @FXML
+    TextField grainSizeTextField;
+
     private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
@@ -80,9 +83,11 @@ public class GrainsController {
 
         sizeLabel.setVisible(false);
 
+        grainSizeTextField.setText("10");
+
         // wielkość ziaren
-        grainWidth = 2;
-        grainHeight = 2;
+//        grainWidth = Integer.valueOf(grainSizeTextField.getText());
+//        grainHeight = Integer.valueOf(grainSizeTextField.getText());
 
         setNeighbourChoiceBoxItems();
         neighboursChioceBox.setValue("Heksagonalne Lewe");
@@ -102,6 +107,9 @@ public class GrainsController {
         // obiektu z głowna logika programu
         growthGrains = new GrowthGrains(this);
 
+        grainSizeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+           growthGrains.createGrid();
+        });
 
         scrollPane.setContent(grainCanvas);
 
@@ -115,6 +123,8 @@ public class GrainsController {
     // Dodawanie ziarna do siatki za pomocą myszki
     @FXML
     public void addGrainUsingMouse() {
+        grainWidth = Integer.valueOf(grainSizeTextField.getText());
+        grainHeight = Integer.valueOf(grainSizeTextField.getText());
         grainCanvas.setOnMousePressed(me -> {
             int x = (int) me.getX();
             int y = (int) me.getY();
@@ -170,6 +180,8 @@ public class GrainsController {
     // Metoda do wizualizacji siatki wykonywana w osobnym wątku
     public void drawCanvas() {
         Platform.runLater(() -> {
+            grainWidth = Integer.valueOf(grainSizeTextField.getText());
+            grainHeight = Integer.valueOf(grainSizeTextField.getText());
             clearCanvas();
             for (int i = 0; i < growthGrains.getWidth(); i++) {
                 for (int j = 0; j < growthGrains.getHeight(); j++) {
@@ -249,7 +261,8 @@ public class GrainsController {
     @FXML
     public void setGrainsAction() {
         String choice = placementChoiceBox.getValue();
-
+        grainWidth = Integer.valueOf(grainSizeTextField.getText());
+        grainHeight = Integer.valueOf(grainSizeTextField.getText());
         clearCanvas();
         growthGrains.clearArray();
 
@@ -335,6 +348,10 @@ public class GrainsController {
 
     public CheckBox getPeriodicityCheckBox() {
         return periodicityCheckBox;
+    }
+
+    public TextField getGrainSizeTextField() {
+        return grainSizeTextField;
     }
 }
 

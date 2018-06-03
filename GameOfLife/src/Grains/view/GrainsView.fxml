@@ -36,11 +36,11 @@
             <Label text="Speed" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <ChoiceBox fx:id="neighboursChioceBox" layoutX="993.0" layoutY="162.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="neighboursChioceBox" layoutX="993.0" layoutY="170.0" prefWidth="150.0" />
       <ChoiceBox fx:id="placementChoiceBox" layoutX="993.0" layoutY="231.0" prefWidth="150.0" />
       <Label layoutX="994.0" layoutY="214.0" text="Rozmieszczenie:" />
       <Label fx:id="toMuchGrainsLabel" layoutX="993.0" layoutY="269.0" text="Zbyt mała powierzchnia aby rozmieścić ziarna" />
-      <TextField fx:id="radiusTextField" layoutX="994.0" layoutY="299.0" promptText="Promień" />
+      <TextField fx:id="radiusTextField" layoutX="994.0" layoutY="309.0" promptText="Promień" />
       <CheckBox fx:id="periodicityCheckBox" layoutX="993.0" layoutY="342.0" mnemonicParsing="false" text="Periodyczność" />
       <ScrollPane fx:id="scrollPane" prefHeight="700.0" prefWidth="900.0">
         <content>
@@ -48,5 +48,10 @@
         </content>
       </ScrollPane>
       <Button layoutX="993.0" layoutY="595.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+      <Label layoutX="993.0" layoutY="113.0" text="Ilość ziaren" />
+      <Label layoutX="993.0" layoutY="155.0" text="Rodzaj sąsiedztwa" />
+      <Label layoutX="999.0" layoutY="292.0" text="Promień" />
+      <TextField fx:id="grainSizeTextField" layoutX="1165.0" layoutY="130.0" prefHeight="25.0" prefWidth="85.0" />
+      <Label layoutX="1165.0" layoutY="113.0" text="Wielkość ziarna" />
    </children>
 </Pane>

@@ -51,8 +51,8 @@ public class GrowthGrains {
     }
 
     public void createGrid() {
-        width = (int) grainsController.getGrainCanvas().getWidth() / grainsController.getGrainWidth();
-        height = (int) grainsController.getGrainCanvas().getHeight() / grainsController.getGrainHeight();
+        width = (int) grainsController.getGrainCanvas().getWidth() / Integer.valueOf(grainsController.getGrainSizeTextField().getText());
+        height = (int) grainsController.getGrainCanvas().getHeight() / Integer.valueOf(grainsController.getGrainSizeTextField().getText());
 
         grainsArray = new Grain[width][height];
 
@@ -350,6 +350,10 @@ public class GrowthGrains {
         return false;
     }
 
+
+    ///////////////////////////////////////////////////////////////
+
+
     public boolean vonNeuman(boolean isClose) {
         isArrayFull = true;
         id = 0;
@@ -569,12 +573,71 @@ public class GrowthGrains {
     }
 
     public boolean heksagonalRand(boolean isClose) {
-        int choice = random.nextInt(2);
-        if (choice == 0) {
-            return heksagonalLeft(isClose);
-        } else {
-            return heksagonalRight(isClose);
+        isArrayFull = true;
+        id = 0;
+        idToAssign = 0;
+        hasGrainHasNeigbours = 0;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                grainMap.clear();
+                colorMap.clear();
+                hasGrainHasNeigbours = 0;
+                if (grainsArray[i][j].getState() == 0) {
+
+                    setEdge(isClose, i, j);
+
+
+                    if (checkMiddleUpperNeigbour(indUp, j)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkLeftNeigbour(i, indLeft)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+                    if (checkRightNeigbour(i, indRight)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+
+                    if (checkMiddleBottomNeigbour(indDown, j)) {
+                        hasGrainHasNeigbours++;
+                    }
+
+
+                    int choice = random.nextInt(2);
+                    if (choice == 0) {
+                        if (checkRightUpperNeigbour(indUp, indRight)) {
+                            hasGrainHasNeigbours++;
+                        }
+                        if (checkLeftBottomNeigbour(indDown, indLeft)) {
+                            hasGrainHasNeigbours++;
+                        }
+                    } else {
+
+                        if (checkLeftUpperNeigbour(indUp, indLeft)) {
+                            hasGrainHasNeigbours++;
+
+                        }
+                        if (checkRightBottomNeigbour(indDown, indRight)) {
+                            hasGrainHasNeigbours++;
+                        }
+
+                    }
+
+                    if (hasGrainHasNeigbours > 0) {
+                        idToAssign = getIDMaxNeighbour(grainMap);
+                        grainsArray[i][j].setNextState(1);
+                        grainsArray[i][j].setColor(colorMap.get(idToAssign));
+                        grainsArray[i][j].setId(idToAssign);
+                    }
+                }
+            }
+
         }
+        copyArray();
+        return isArrayFull;
     }
 
     // Ustawienie jak dla lewego
@@ -776,29 +839,128 @@ public class GrowthGrains {
     }
 
     public boolean pentagonalRandom(boolean isClose) {
-        int choice = random.nextInt(4);
+        isArrayFull = true;
+        id = 0;
+        idToAssign = 0;
+        hasGrainHasNeigbours = 0;
 
-        boolean isFull = false;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                grainMap.clear();
+                colorMap.clear();
+                hasGrainHasNeigbours = 0;
+                if (grainsArray[i][j].getState() == 0) {
 
-        switch (choice) {
-            case 1: {
-                isFull = pentagonalTop(isClose);
-                break;
-            }
-            case 2: {
-                isFull = pentagonalRight(isClose);
-                break;
-            }
-            case 3: {
-                isFull = pentagonalLeft(isClose);
-                break;
-            }
-            case 4: {
-                isFull = pentagonalDown(isClose);
-                break;
+                    setEdge(isClose, i, j);
+
+                    int choice = random.nextInt(4);
+                    switch (choice) {
+                        // Gorne
+                        case 0: {
+
+                            if (checkMiddleUpperNeigbour(indUp, j)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightUpperNeigbour(indUp, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightNeigbour(i, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkMiddleBottomNeigbour(indDown, j)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightBottomNeigbour(indDown, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+                            break;
+
+                        }
+                        //Prawe
+                        case 1:{
+                            if (checkLeftUpperNeigbour(indUp, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkMiddleUpperNeigbour(indUp, j)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightUpperNeigbour(indUp, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkLeftNeigbour(i, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightNeigbour(i, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+                         break;
+                        }
+                        // Lewe
+                        case 2:{
+                            if (checkLeftNeigbour(i, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightNeigbour(i, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkLeftBottomNeigbour(indDown, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkMiddleBottomNeigbour(indDown, j)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkRightBottomNeigbour(indDown, indRight)) {
+                                hasGrainHasNeigbours++;
+                            }
+                            break;
+                        }
+                        //Dolne
+                        case 3:{
+                            if (checkLeftUpperNeigbour(indUp, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkMiddleUpperNeigbour(indUp, j)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkLeftNeigbour(i, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkLeftBottomNeigbour(indDown, indLeft)) {
+                                hasGrainHasNeigbours++;
+                            }
+
+                            if (checkMiddleBottomNeigbour(indDown, j)) {
+                                hasGrainHasNeigbours++;
+                            }
+                            break;
+                        }
+                    }
+                    if (hasGrainHasNeigbours > 0) {
+                        idToAssign = getIDMaxNeighbour(grainMap);
+                        grainsArray[i][j].setNextState(1);
+                        grainsArray[i][j].setColor(colorMap.get(idToAssign));
+                        grainsArray[i][j].setId(idToAssign);
+                    }
+                }
             }
         }
-        return isFull;
+        copyArray();
+        return isArrayFull;
     }
 
     public int getWidth() {

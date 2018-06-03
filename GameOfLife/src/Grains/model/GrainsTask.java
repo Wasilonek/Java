@@ -15,7 +15,7 @@ public class GrainsTask extends Task {
     public GrainsTask(GrainsController grainsController) {
         this.grainsController = grainsController;
         stopStatus = false;
-        speed = 100;
+        speed = 400;
     }
 
     @Override
