@@ -76,13 +76,13 @@ public class GrainsController {
         grainHeight = 2;
 
         setNeighbourChoiceBoxItems();
-        neighboursChioceBox.setValue("Moore");
+        neighboursChioceBox.setValue("Heksagonalne Lewe");
 
         setPlacementChoiceBoxItems();
         placementChoiceBox.setValue("Losowe");
 
         // zmiana periodyczności na zamkniete
-        periodicityCheckBox.setSelected(true);
+        periodicityCheckBox.setSelected(false);
 
         // pole do zmiany ilosci ziaren do losowania
         numberOfGrainsField.setText("50");
@@ -168,7 +168,7 @@ public class GrainsController {
                     }
                 }
             }
- 
+
             // W zalezności od wybranego rodzaju sasiedztwa przeprowadzam rozrost
             String choice = neighboursChioceBox.getValue();
             switch (choice) {

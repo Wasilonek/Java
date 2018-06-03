@@ -254,7 +254,7 @@ public class GrowthGrains {
 
 
     public boolean checkLeftUpperNeigbour(int indUp, int indLeft) {
-        if (!(indUp == -1) || !(indLeft == -1)) {
+        if (!(indUp == -1) && !(indLeft == -1)) {
             if (grainsArray[indUp][indLeft].getState() == 1) {
                 id = grainsArray[indUp][indLeft].getId();
                 fillMap(id, grainMap);
@@ -278,7 +278,7 @@ public class GrowthGrains {
     }
 
     public boolean checkRightUpperNeigbour(int indUp, int indRight) {
-        if (!(indUp == -1) || !(indRight == -1)) {
+        if (!(indUp == -1) && !(indRight == -1)) {
             if (grainsArray[indUp][indRight].getState() == 1) {
                 id = grainsArray[indUp][indRight].getId();
                 fillMap(id, grainMap);
@@ -314,7 +314,7 @@ public class GrowthGrains {
     }
 
     public boolean checkLeftBottomNeigbour(int indDown, int indLeft) {
-        if (!(indDown == -1) || !(indLeft == -1)) {
+        if (!(indDown == -1) && !(indLeft == -1)) {
             if (grainsArray[indDown][indLeft].getState() == 1) {
                 id = grainsArray[indDown][indLeft].getId();
                 fillMap(id, grainMap);
@@ -339,7 +339,7 @@ public class GrowthGrains {
     }
 
     public boolean checkRightBottomNeigbour(int indDown, int indRight) {
-        if (!(indRight == -1) || !(indDown == -1)) {
+        if (!(indRight == -1) && !(indDown == -1)) {
             if (grainsArray[indDown][indRight].getState() == 1) {
                 id = grainsArray[indDown][indRight].getId();
                 fillMap(id, grainMap);
