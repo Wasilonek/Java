@@ -168,7 +168,7 @@ public class GrainsController {
                     }
                 }
             }
-
+ 
             // W zalezności od wybranego rodzaju sasiedztwa przeprowadzam rozrost
             String choice = neighboursChioceBox.getValue();
             switch (choice) {
