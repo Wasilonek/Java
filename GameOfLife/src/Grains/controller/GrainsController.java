@@ -168,63 +168,62 @@ public class GrainsController {
                     }
                 }
             }
+
+            // W zalezności od wybranego rodzaju sasiedztwa przeprowadzam rozrost
+            String choice = neighboursChioceBox.getValue();
+            switch (choice) {
+                case "Moore": {
+                    if (growthGrains.moore(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Von Neuman": {
+                    if (growthGrains.vonNeuman(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Heksagonalne Lewe": {
+                    if (growthGrains.heksagonalLeft(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Heksagonalne Prawe": {
+                    if (growthGrains.heksagonalRight(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Heksagonalne Losowe": {
+                    if (growthGrains.heksagonalRand(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Pentagonalne Górne": {
+                    if (growthGrains.pentagonalTop(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Pentagonalne Dolne": {
+                    if (growthGrains.pentagonalDown(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Pentagonalne Prawe": {
+                    if (growthGrains.pentagonalRight(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Pentagonalne Lewe": {
+                    if (growthGrains.pentagonalLeft(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+                case "Pentagonalne Losowe": {
+                    if (growthGrains.pentagonalRandom(periodicityCheckBox.isSelected()))
+                        stopAction();
+                    break;
+                }
+            }
         });
-
-        // W zalezności od wybranego rodzaju sasiedztwa przeprowadzam rozrost
-        String choice = neighboursChioceBox.getValue();
-        switch (choice) {
-            case "Moore": {
-                if (growthGrains.moore(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Von Neuman": {
-                if (growthGrains.vonNeuman(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Heksagonalne Lewe": {
-                if (growthGrains.heksagonalLeft(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Heksagonalne Prawe": {
-                if (growthGrains.heksagonalRight(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Heksagonalne Losowe": {
-                if (growthGrains.heksagonalRand(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Pentagonalne Górne": {
-                if (growthGrains.pentagonalTop(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Pentagonalne Dolne": {
-                if (growthGrains.pentagonalDown(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Pentagonalne Prawe": {
-                if (growthGrains.pentagonalRight(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Pentagonalne Lewe": {
-                if (growthGrains.pentagonalLeft(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-            case "Pentagonalne Losowe": {
-                if (growthGrains.pentagonalRandom(periodicityCheckBox.isSelected()))
-                    stopAction();
-                break;
-            }
-        }
-
     }
 
     public void clearCanvas() {
@@ -256,6 +255,7 @@ public class GrainsController {
             }
             case "Z promieniem": {
                 growthGrains.createGridWithRadius(Integer.parseInt(radiusTextField.getText()));
+                break;
             }
         }
         drawCanvas();
