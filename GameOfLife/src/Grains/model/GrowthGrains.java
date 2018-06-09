@@ -2,6 +2,7 @@ package Grains.model;
 
 import Grains.controller.GrainsController;
 
+import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
 import java.util.*;
@@ -28,8 +29,9 @@ public class GrowthGrains {
     int indLeft;
     int indRight;
 
-    Map<Integer, Color> colorMap;
+    Map<Integer, Color> colorMap , colorForEveryId;
     Map<Integer, Integer> grainMap;
+
 
     public GrowthGrains(GrainsController grainsController) {
 
@@ -45,14 +47,38 @@ public class GrowthGrains {
 
         grainMap = new HashMap<>();
         colorMap = new HashMap<>();
+        colorForEveryId = new HashMap<>();
         id = 0;
         idToAssign = 0;
 
     }
 
+    public void wrongFormatAlertMessage(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText("Wrong format");
+        alert.setContentText("Write only number!");
+        alert.showAndWait();
+    }
+
     public void createGrid() {
-        width = (int) grainsController.getGrainCanvas().getWidth() / Integer.valueOf(grainsController.getGrainSizeTextField().getText());
-        height = (int) grainsController.getGrainCanvas().getHeight() / Integer.valueOf(grainsController.getGrainSizeTextField().getText());
+
+        String grainS = grainsController.getGrainSizeTextField().getText();
+
+        try {
+            if (!grainS.matches("\\d*") ) {
+
+                wrongFormatAlertMessage();
+
+                width = (int) grainsController.getGrainCanvas().getWidth() / 2;
+                height = (int) grainsController.getGrainCanvas().getHeight() / 2;
+
+            } else {
+                width = (int) grainsController.getGrainCanvas().getWidth() / Integer.valueOf(grainsController.getGrainSizeTextField().getText());
+                height = (int) grainsController.getGrainCanvas().getHeight() / Integer.valueOf(grainsController.getGrainSizeTextField().getText());
+            }
+        } catch (Exception ignored) {
+        }
 
         grainsArray = new Grain[width][height];
 
@@ -75,6 +101,7 @@ public class GrowthGrains {
                 grainsArray[i][j].setNewColor(Color.WHITE);
                 grainsArray[i][j].setNewId(-1);
                 grainsArray[i][j].setId(-1);
+                grainsArray[i][j].setEnergy(0);
             }
         }
     }
@@ -103,6 +130,24 @@ public class GrowthGrains {
         return false;
     }
 
+    public void randColors(int numberOfId){
+        for(int i = 0  ; i < numberOfId ; i++){
+            colorForEveryId.put(i , (Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble())));
+        }
+    }
+
+    public void randomMonteCarloGrains( int numberOfId ){
+        randColors(numberOfId);
+        clearArray();
+        for(int i = 0 ; i < width ; i++){
+            for(int j = 0 ; j < height ; j++){
+                grainsArray[i][j].setState(1);
+                grainsArray[i][j].setId(random.nextInt(numberOfId));
+                grainsArray[i][j].setColor(colorForEveryId.get(grainsArray[i][j].getId()));
+            }
+        }
+    }
+
     public void addSingleGrain(int x, int y) {
 
 
@@ -121,9 +166,9 @@ public class GrowthGrains {
 
 
     public void createEventlyGrains() {
-        int x, y;
-        int srodek_x = this.width / 2;
-        int srodek_y = this.height / 2;
+//        int x, y;
+//        int srodek_x = this.width / 2;
+//        int srodek_y = this.height / 2;
         double px, py;
         py = Math.sqrt(this.height * grainsController.getNumberOfGrains() / this.width);
         px = ((double) grainsController.getNumberOfGrains() / py);
@@ -133,8 +178,8 @@ public class GrowthGrains {
         int x_width = this.width / x_size;
         int y_height = this.height / y_size;
 
-        srodek_x = x_size / 2;
-        srodek_y = y_size / 2;
+//        srodek_x = x_size / 2;
+//        srodek_y = y_size / 2;
 
         clearArray();
         grainsController.clearCanvas();
@@ -171,6 +216,7 @@ public class GrowthGrains {
                 Point v = wsio_i.next();
                 if (p.inR(v, radius))
                     wsio_i.remove();
+                //saveInt++;
             }//next
         }//i
     }
@@ -354,7 +400,11 @@ public class GrowthGrains {
     ///////////////////////////////////////////////////////////////
 
 
-    public boolean vonNeuman(boolean isClose) {
+    public void monteCarlo(){
+
+    }
+
+    public boolean moore(boolean isClose) {
         isArrayFull = true;
         id = 0;
         idToAssign = 0;
@@ -418,7 +468,7 @@ public class GrowthGrains {
         return isArrayFull;
     }
 
-    public boolean moore(boolean isClose) {
+    public boolean vonNeuman(boolean isClose) {
 
         isArrayFull = true;
         id = 0;
@@ -977,6 +1027,20 @@ public class GrowthGrains {
 
     public Grain getGrain(int i, int j) {
         return grainsArray[i][j];
+    }
+
+    public Grain[][] getGrainsArray() {
+        return grainsArray;
+    }
+
+    public void setGrainsArray(Grain[][] grainsArray) {
+        this.grainsArray = grainsArray;
+    }
+
+    public void setGrainAdd(int x , int y , int i){
+        grainsArray[x][y].setState(1);
+        grainsArray[x][y].setId(i);
+        grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
     }
 }
 

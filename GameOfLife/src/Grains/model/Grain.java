@@ -6,14 +6,16 @@ import javafx.scene.paint.Color;
  * Created by Kamil on 2018-05-23.
  */
 public class Grain {
-    private int state, nextState, id , newId;
-    private Color color , newColor;
+    private int state, nextState, id, newId;
+    private Color color, newColor;
+    private int energy;
 
     public Grain() {
         state = nextState = 0;
-        id = newId = - 1;
+        id = newId = -1;
         color = Color.GREEN;
         newColor = Color.WHITE;
+        energy = 0;
     }
 
     public int getState() {
@@ -54,5 +56,13 @@ public class Grain {
 
     public void setNewColor(Color newColor) {
         this.newColor = newColor;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
     }
 }

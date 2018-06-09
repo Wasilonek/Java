@@ -14,7 +14,7 @@
       <TextField fx:id="heightField" layoutX="994.0" layoutY="39.0" promptText="Height" />
       <Button fx:id="setSizeButton" layoutX="1036.0" layoutY="64.0" mnemonicParsing="false" onAction="#setSizeAction" text="Set size" />
       <TextField fx:id="numberOfGrainsField" layoutX="994.0" layoutY="130.0" promptText="Number of grains" />
-      <Label fx:id="sizeLabel" layoutX="994.0" layoutY="89.0" text="Maksymalny rozmiar to 700x700" />
+      <Label fx:id="sizeLabel" layoutX="994.0" layoutY="89.0" text="Maksymalny rozmiar to 1000x1000" />
       <GridPane layoutX="994.0" layoutY="402.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -26,14 +26,18 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button fx:id="setGrainsButton" mnemonicParsing="false" onAction="#setGrainsAction" text="Set grains" />
             <Button mnemonicParsing="false" onAction="#oneStepAction" text="One step" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#startAction" text="Start" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#stopAction" text="Stop" GridPane.rowIndex="3" />
-            <Slider fx:id="speedSlider" min="10.0" value="30.0" GridPane.rowIndex="5" />
-            <Label text="Speed" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#stopAction" text="Stop" GridPane.rowIndex="4" />
+            <Slider fx:id="speedSlider" min="10.0" value="30.0" GridPane.rowIndex="6" />
+            <Label text="Speed" GridPane.rowIndex="5" />
+            <Button mnemonicParsing="false" onAction="#randAgainAction" text="Rand again" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save" GridPane.rowIndex="7" />
          </children>
       </GridPane>
       <ChoiceBox fx:id="neighboursChioceBox" layoutX="993.0" layoutY="170.0" prefWidth="150.0" />
@@ -47,11 +51,29 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>
       </ScrollPane>
-      <Button layoutX="993.0" layoutY="595.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
       <Label layoutX="993.0" layoutY="113.0" text="Ilość ziaren" />
       <Label layoutX="993.0" layoutY="155.0" text="Rodzaj sąsiedztwa" />
       <Label layoutX="999.0" layoutY="292.0" text="Promień" />
       <TextField fx:id="grainSizeTextField" layoutX="1165.0" layoutY="130.0" prefHeight="25.0" prefWidth="85.0" />
       <Label layoutX="1165.0" layoutY="113.0" text="Wielkość ziarna" />
+      <GridPane layoutX="1106.0" layoutY="438.0" prefHeight="151.0" prefWidth="150.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="17.0" prefWidth="151.0" text="Liczba ID do wylosowania" />
+            <TextField fx:id="numberOfIdTextField" prefHeight="25.0" prefWidth="100.0" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#setIdAction" text="Set ID" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#randOnClearAction" text="Clear Rand" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#monteCarloAction" text="Monte Carlo" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
    </children>
 </Pane>

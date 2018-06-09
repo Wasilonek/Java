@@ -9,9 +9,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.util.Random;
 
 
 /**
@@ -58,6 +60,9 @@ public class GrainsController {
     @FXML
     TextField grainSizeTextField;
 
+    @FXML
+    TextField numberOfIdTextField;
+
     private double maxWidth, maxHeight;
 
     private GraphicsContext graphicsContext;
@@ -72,8 +77,14 @@ public class GrainsController {
 
     private WritableImage writableImage;
 
+    private int numberOfId;
+
+    private Random random;
+
     @FXML
     void initialize() {
+
+        random = new Random();
 
         // maksymalna wielkość dla Canvas
         maxWidth = 1000;
@@ -83,14 +94,14 @@ public class GrainsController {
 
         sizeLabel.setVisible(false);
 
-        grainSizeTextField.setText("10");
+        grainSizeTextField.setText("5");
 
         // wielkość ziaren
 //        grainWidth = Integer.valueOf(grainSizeTextField.getText());
 //        grainHeight = Integer.valueOf(grainSizeTextField.getText());
 
         setNeighbourChoiceBoxItems();
-        neighboursChioceBox.setValue("Heksagonalne Lewe");
+        neighboursChioceBox.setValue("Heksagonalne Losowe");
 
         setPlacementChoiceBoxItems();
         placementChoiceBox.setValue("Losowe");
@@ -108,7 +119,7 @@ public class GrainsController {
         growthGrains = new GrowthGrains(this);
 
         grainSizeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-           growthGrains.createGrid();
+            growthGrains.createGrid();
         });
 
         scrollPane.setContent(grainCanvas);
@@ -118,13 +129,50 @@ public class GrainsController {
         // Domyslnie wątek rysujący jest wyłacząny
         isStartOn = false;
         isOneDrawnigThread = true;
+
+        numberOfId = 10;
+
+        numberOfIdTextField.setText("10");
+
     }
 
     // Dodawanie ziarna do siatki za pomocą myszki
     @FXML
     public void addGrainUsingMouse() {
-        grainWidth = Integer.valueOf(grainSizeTextField.getText());
-        grainHeight = Integer.valueOf(grainSizeTextField.getText());
+        //grainWidth = Integer.valueOf(grainSizeTextField.getText());
+        String grainW = grainSizeTextField.getText();
+        String grainH = grainSizeTextField.getText();
+        try {
+            if (!grainW.matches("\\d*") || !grainH.matches("\\d*")) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Wrong format");
+                alert.setContentText("Write only number!");
+
+                alert.showAndWait();
+                grainWidth = 700;
+            } else {
+                grainWidth = Integer.valueOf(grainSizeTextField.getText());
+            }
+        } catch (Exception ignored) {
+        }
+        //grainHeight = Integer.valueOf(grainSizeTextField.getText());
+
+        try {
+            if (!grainH.matches("\\d*")) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Wrong format");
+                alert.setContentText("Write only number!");
+
+                alert.showAndWait();
+                grainHeight = 700;
+            } else {
+                grainHeight = Integer.valueOf(grainSizeTextField.getText());
+
+            }
+        } catch (Exception ignored) {
+        }
         grainCanvas.setOnMousePressed(me -> {
             int x = (int) me.getX();
             int y = (int) me.getY();
@@ -141,24 +189,79 @@ public class GrainsController {
         });
     }
 
+    @FXML
+    public void randAgainAction() {
+        int maxNumberOfCheck = 0;
+        int x, y;
+        for (int i = 0; i < getNumberOfGrains(); ) {
+            if (maxNumberOfCheck == 1000)
+                break;
+            x = random.nextInt(growthGrains.getWidth());
+            y = random.nextInt(growthGrains.getHeight());
+            if (growthGrains.getGrainState(x, y) == 1) {
+                maxNumberOfCheck++;
+                continue;
+            }
+            growthGrains.setGrainAdd(x, y, i);
+            maxNumberOfCheck = 0;
+            i++;
+        }
+    }
+
     // Zmiana rozmiaru Canvasu podczas działania programu
     @FXML
     public void setSizeAction() {
 
         sizeLabel.setVisible(false);
+        String grainW = widthField.getText();
+        String grainH = heightField.getText();
+        try {
+            if (!grainW.matches("\\d*")) {
+                wrongFormatAlertMessage();
+                grainCanvas.setWidth(maxWidth);
+            } else {
+                grainCanvas.setWidth(Double.valueOf(widthField.getText()));
+            }
+        } catch (Exception ignored) {
+        }
 
-        if (Double.valueOf(widthField.getText()) > maxWidth) {
-            grainCanvas.setWidth(maxWidth);
-            sizeLabel.setVisible(true);
-        } else {
-            grainCanvas.setWidth(Double.valueOf(widthField.getText()));
+        try {
+            if (!grainH.matches("\\d*")) {
+                wrongFormatAlertMessage();
+                grainCanvas.setHeight(maxHeight);
+            } else {
+                grainCanvas.setHeight(Double.valueOf(heightField.getText()));
+            }
+        } catch (Exception ignored) {
         }
-        if (Double.valueOf(heightField.getText()) > maxHeight) {
-            grainCanvas.setHeight(maxHeight);
-            sizeLabel.setVisible(true);
-        } else {
-            grainCanvas.setHeight(Double.valueOf(heightField.getText()));
+
+        if (grainCanvas.getWidth() > maxWidth || grainCanvas.getHeight() > maxHeight) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setContentText("Max size is 1000x1000!");
+
+            alert.showAndWait();
         }
+//        if (grainCanvas.getHeight() > maxHeight) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("Warning Dialog");
+//            alert.setContentText("Max size is 1000x1000!");
+//
+//            alert.showAndWait();
+//        }
+//
+//        if (Double.valueOf(widthField.getText()) > maxWidth) {
+//            grainCanvas.setWidth(maxWidth);
+//            sizeLabel.setVisible(true);
+//        } else {
+//            grainCanvas.setWidth(Double.valueOf(widthField.getText()));
+//        }
+//        if (Double.valueOf(heightField.getText()) > maxHeight) {
+//            grainCanvas.setHeight(maxHeight);
+//            sizeLabel.setVisible(true);
+//        } else {
+//            grainCanvas.setHeight(Double.valueOf(heightField.getText()));
+//        }
 
         // przebudowanie siatki  po zmianie wielkości
         growthGrains.createGrid();
@@ -177,31 +280,53 @@ public class GrainsController {
         }
     }
 
+    public void wrongFormatAlertMessage() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText("Wrong format");
+        alert.setContentText("Write only number!");
+        alert.showAndWait();
+    }
+
     // Metoda do wizualizacji siatki wykonywana w osobnym wątku
     public void drawCanvas() {
         Platform.runLater(() -> {
-            grainWidth = Integer.valueOf(grainSizeTextField.getText());
-            grainHeight = Integer.valueOf(grainSizeTextField.getText());
-            clearCanvas();
-            for (int i = 0; i < growthGrains.getWidth(); i++) {
-                for (int j = 0; j < growthGrains.getHeight(); j++) {
-                    if (growthGrains.getGrainState(i, j) == 1) {
-                        graphicsContext.setFill(growthGrains.getGrain(i, j).getColor());
-                        graphicsContext.fillRect(i * grainWidth, j * grainHeight, grainWidth, grainHeight);
-                    }
+            String grainS = grainSizeTextField.getText();
+
+            try {
+                if (!grainS.matches("\\d*")) {
+                    wrongFormatAlertMessage();
+                    grainWidth = 2;
+                    grainHeight = 2;
+                } else {
+                    grainWidth = Integer.valueOf(grainSizeTextField.getText());
+                    grainHeight = Integer.valueOf(grainSizeTextField.getText());
                 }
+            } catch (Exception ignored) {
             }
+
+            //clearCanvas();
+//            for (int i = 0; i < growthGrains.getWidth(); i++) {
+//                for (int j = 0; j < growthGrains.getHeight(); j++) {
+//                    if (growthGrains.getGrainState(i, j) == 1) {
+//                        graphicsContext.setFill(growthGrains.getGrain(i, j).getColor());
+//                        graphicsContext.fillRect(i * grainWidth, j * grainHeight, grainWidth, grainHeight);
+//                    }
+//                }
+//            }
+
+            refreshCanvas();
 
             // W zalezności od wybranego rodzaju sasiedztwa przeprowadzam rozrost
             String choice = neighboursChioceBox.getValue();
             switch (choice) {
-                case "Moore": {
-                    if (growthGrains.moore(periodicityCheckBox.isSelected()))
+                case "Von Neuman": {
+                    if (growthGrains.vonNeuman(periodicityCheckBox.isSelected()))
                         stopAction();
                     break;
                 }
-                case "Von Neuman": {
-                    if (growthGrains.vonNeuman(periodicityCheckBox.isSelected()))
+                case "Moore": {
+                    if (growthGrains.moore(periodicityCheckBox.isSelected()))
                         stopAction();
                     break;
                 }
@@ -261,8 +386,23 @@ public class GrainsController {
     @FXML
     public void setGrainsAction() {
         String choice = placementChoiceBox.getValue();
-        grainWidth = Integer.valueOf(grainSizeTextField.getText());
-        grainHeight = Integer.valueOf(grainSizeTextField.getText());
+
+        String grainS = grainSizeTextField.getText();
+
+        try {
+            if (!grainS.matches("\\d*")) {
+                wrongFormatAlertMessage();
+                grainWidth = 2;
+                grainHeight = 2;
+            } else {
+                grainWidth = Integer.valueOf(grainSizeTextField.getText());
+                grainHeight = Integer.valueOf(grainSizeTextField.getText());
+            }
+        } catch (Exception ignored) {
+        }
+
+//        grainWidth = Integer.valueOf(grainSizeTextField.getText());
+//        grainHeight = Integer.valueOf(grainSizeTextField.getText());
         clearCanvas();
         growthGrains.clearArray();
 
@@ -270,7 +410,7 @@ public class GrainsController {
             case "Losowe": {
                 if (growthGrains.randomGrains()) {
                     toMuchGrainsLabel.setVisible(true);
-                }
+                } else toMuchGrainsLabel.setVisible(false);
                 break;
             }
             case "Rownomierne": {
@@ -304,11 +444,15 @@ public class GrainsController {
     public void stopAction() {
         isStartOn = false;
         isOneDrawnigThread = true;
-        grainsTask.setStopStatus(true);
+        try {
+            grainsTask.setStopStatus(true);
+        } catch (NullPointerException e) {
+            System.out.println("Rozrost nie wystartował");
+        }
     }
 
-    public void saveButtonAction(){
-        writableImage = new WritableImage((int)grainCanvas.getWidth(), (int)grainCanvas.getHeight());
+    public void saveButtonAction() {
+        writableImage = new WritableImage((int) grainCanvas.getWidth(), (int) grainCanvas.getHeight());
         grainCanvas.snapshot(null, writableImage);
 
         File file = new File("CanvasImage.png");
@@ -319,6 +463,56 @@ public class GrainsController {
         }
     }
 
+    @FXML
+    public void setIdAction() {
+
+        String grainS = grainSizeTextField.getText();
+
+        try {
+            if (!grainS.matches("\\d*")) {
+                wrongFormatAlertMessage();
+                grainWidth = 2;
+                grainHeight = 2;
+            } else {
+                grainWidth = Integer.valueOf(grainSizeTextField.getText());
+                grainHeight = Integer.valueOf(grainSizeTextField.getText());
+            }
+        } catch (Exception ignored) {
+        }
+
+
+        String numberID = numberOfIdTextField.getText();
+        try {
+            if (!numberID.matches("\\d*")) {
+                wrongFormatAlertMessage();
+                numberOfId = 10;
+
+            } else {
+                numberOfId = Integer.valueOf(numberOfIdTextField.getText());
+            }
+        } catch (Exception ignored) {
+        }
+
+        growthGrains.randomMonteCarloGrains(numberOfId);
+        refreshCanvas();
+    }
+
+    @FXML
+    public void randOnClearAction() {
+
+    }
+
+    @FXML
+    void monteCarloAction() {
+        isStartOn = true;
+        if (isOneDrawnigThread) {
+            grainsTask = new GrainsTask(this);
+            Thread thread = new Thread(grainsTask);
+            thread.setDaemon(true);
+            thread.start();
+            isOneDrawnigThread = false;
+        }
+    }
 
     private void setNeighbourChoiceBoxItems() {
         neighboursChioceBox.getItems().addAll("Moore", "Von Neuman", "Heksagonalne Lewe", "Heksagonalne Prawe",
@@ -335,8 +529,25 @@ public class GrainsController {
     }
 
     public int getNumberOfGrains() {
-        return Integer.valueOf(numberOfGrainsField.getText());
+        String grainN = numberOfGrainsField.getText();
+        try {
+            if (!grainN.matches("\\d*")) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Wrong format");
+                alert.setContentText("Write only number!");
+
+                alert.showAndWait();
+                return 2;
+            } else {
+                return Integer.valueOf(numberOfGrainsField.getText());
+            }
+        } catch (Exception ignored) {
+        }
+        return 2;
     }
+//        return Integer.valueOf(numberOfGrainsField.getText());
+
 
     public int getGrainWidth() {
         return grainWidth;
