@@ -14,13 +14,13 @@ public class MonteCarloTask extends Task {
     public MonteCarloTask(GrainsController grainsController) {
         this.grainsController = grainsController;
         stopStatus = false;
-        speed = 400;
+        speed = 20;
     }
 
     @Override
     protected Object call() throws Exception {
         while (!stopStatus) {
-            grainsController.drawCanvas();
+            grainsController.nextMonteCarloPeriod();
             Thread.sleep(speed);
         }
         return 1;

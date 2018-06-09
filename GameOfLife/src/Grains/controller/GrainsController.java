@@ -2,6 +2,7 @@ package Grains.controller;
 
 import Grains.model.GrainsTask;
 import Grains.model.GrowthGrains;
+import Grains.model.MonteCarloTask;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -81,6 +82,8 @@ public class GrainsController {
 
     private Random random;
 
+    private MonteCarloTask monteCarloTask;
+
     @FXML
     void initialize() {
 
@@ -107,7 +110,7 @@ public class GrainsController {
         placementChoiceBox.setValue("Losowe");
 
         // zmiana periodyczności na zamkniete
-        periodicityCheckBox.setSelected(false);
+        periodicityCheckBox.setSelected(true);
 
         // pole do zmiany ilosci ziaren do losowania
         numberOfGrainsField.setText("50");
@@ -132,7 +135,7 @@ public class GrainsController {
 
         numberOfId = 10;
 
-        numberOfIdTextField.setText("10");
+        numberOfIdTextField.setText("2");
 
     }
 
@@ -494,6 +497,7 @@ public class GrainsController {
         }
 
         growthGrains.randomMonteCarloGrains(numberOfId);
+        growthGrains.calculateEnergy(periodicityCheckBox.isSelected());
         refreshCanvas();
     }
 
@@ -502,15 +506,34 @@ public class GrainsController {
 
     }
 
+    public void nextMonteCarloPeriod() {
+        Platform.runLater(() -> {
+            growthGrains.monteCarlo(periodicityCheckBox.isSelected(), numberOfId);
+            refreshCanvas();
+        });
+    }
+
     @FXML
     void monteCarloAction() {
+
         isStartOn = true;
         if (isOneDrawnigThread) {
-            grainsTask = new GrainsTask(this);
-            Thread thread = new Thread(grainsTask);
+            monteCarloTask = new MonteCarloTask(this);
+            Thread thread = new Thread(monteCarloTask);
             thread.setDaemon(true);
             thread.start();
             isOneDrawnigThread = false;
+        }
+    }
+
+    @FXML
+    public void StopMonteCarloAction(){
+        isStartOn = false;
+        isOneDrawnigThread = true;
+        try {
+            monteCarloTask.setStopStatus(true);
+        } catch (NullPointerException e) {
+            System.out.println("Rozrost nie wystartował");
         }
     }
 

@@ -29,7 +29,7 @@ public class GrowthGrains {
     int indLeft;
     int indRight;
 
-    Map<Integer, Color> colorMap , colorForEveryId;
+    Map<Integer, Color> colorMap, colorForEveryId;
     Map<Integer, Integer> grainMap;
 
 
@@ -53,7 +53,7 @@ public class GrowthGrains {
 
     }
 
-    public void wrongFormatAlertMessage(){
+    public void wrongFormatAlertMessage() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Warning Dialog");
         alert.setHeaderText("Wrong format");
@@ -66,7 +66,7 @@ public class GrowthGrains {
         String grainS = grainsController.getGrainSizeTextField().getText();
 
         try {
-            if (!grainS.matches("\\d*") ) {
+            if (!grainS.matches("\\d*")) {
 
                 wrongFormatAlertMessage();
 
@@ -107,6 +107,7 @@ public class GrowthGrains {
     }
 
     public boolean randomGrains() {
+        colorForEveryId.clear();
         int x, y;
 
         int maxGrainsNumber = width * height;
@@ -116,7 +117,9 @@ public class GrowthGrains {
 
         clearArray();
         grainsController.clearCanvas();
+        randColors(grainsController.getNumberOfGrains());
         for (int i = 0; i < grainsController.getNumberOfGrains(); ) {
+
             x = random.nextInt(width);
             y = random.nextInt(height);
             if (grainsArray[x][y].getState() == 1) {
@@ -130,17 +133,18 @@ public class GrowthGrains {
         return false;
     }
 
-    public void randColors(int numberOfId){
-        for(int i = 0  ; i < numberOfId ; i++){
-            colorForEveryId.put(i , (Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble())));
+    public void randColors(int numberOfId) {
+        for (int i = 0; i < numberOfId; i++) {
+            colorForEveryId.put(i, (Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble())));
         }
     }
 
-    public void randomMonteCarloGrains( int numberOfId ){
+    public void randomMonteCarloGrains(int numberOfId) {
+        colorForEveryId.clear();
         randColors(numberOfId);
         clearArray();
-        for(int i = 0 ; i < width ; i++){
-            for(int j = 0 ; j < height ; j++){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 grainsArray[i][j].setState(1);
                 grainsArray[i][j].setId(random.nextInt(numberOfId));
                 grainsArray[i][j].setColor(colorForEveryId.get(grainsArray[i][j].getId()));
@@ -399,10 +403,115 @@ public class GrowthGrains {
 
     ///////////////////////////////////////////////////////////////
 
+    public boolean compareNeighboursId(Grain grainToCheck, Grain neighbour) {
+        if (grainToCheck.getId() == neighbour.getId())
+            return false;
+        return true;
+    }
 
-    public void monteCarlo(){
+
+    public void calculateEnergy(boolean isPeriodic) {
+        int localEnergy = 0;
+        Grain grainToCalculateEnergy;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                localEnergy = 0;
+                setEdge(isPeriodic, i, j);
+                grainToCalculateEnergy = grainsArray[i][j];
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indUp][indLeft]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indUp][j]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indUp][indRight]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[i][indLeft]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[i][indRight]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indDown][indLeft]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indDown][j]))
+                    localEnergy++;
+                if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indDown][indRight]))
+                    localEnergy++;
+
+                grainToCalculateEnergy.setEnergy(localEnergy);
+
+                //System.out.print(grainToCalculateEnergy.getEnergy() + "  ");
+            }
+            //System.out.println();
+        }
+    }
+
+    public void copyEnergy() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                grainsArray[i][j].setId(grainsArray[i][j].getNewId());
+                grainsArray[i][j].setEnergy(grainsArray[i][j].getNewEnergy());
+                grainsArray[i][j].setColor(colorForEveryId.get(grainsArray[i][j].getId()));
+            }
+        }
 
     }
+
+    public boolean compareId(int mainId, int neighbourId) {
+        if (mainId == neighbourId)
+            return false;
+        return true;
+    }
+
+    public void monteCarlo(boolean isPeriodic, int numberOfId) {
+
+//        for (int i = 0; i < width; i++) {
+//            for (int j = 0; j < height; j++) {
+//                System.out.print(grainsArray[i][j].getEnergy() + "  ");
+//            }
+//            System.out.println();
+//        }
+//
+//        System.out.println("\n\n");
+
+        calculateEnergy(isPeriodic);
+        int localEnergy, localID;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                setEdge(isPeriodic, i, j);
+
+                localEnergy = 0;
+
+                localID = random.nextInt(numberOfId);
+
+                if (compareId(localID, grainsArray[indUp][indLeft].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[indUp][j].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[indUp][indRight].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[i][indLeft].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[i][indRight].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[indDown][indLeft].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[indDown][j].getId()))
+                    localEnergy++;
+                if (compareId(localID, grainsArray[indDown][indRight].getId()))
+                    localEnergy++;
+
+                if (localEnergy <= grainsArray[i][j].getEnergy()) {
+                    grainsArray[i][j].setNewEnergy(localEnergy);
+                    grainsArray[i][j].setNewId(localID);
+                } else {
+                    grainsArray[i][j].setNewEnergy(grainsArray[i][j].getEnergy());
+                    grainsArray[i][j].setNewId(grainsArray[i][j].getId());
+                }
+
+            }
+
+        }
+        copyEnergy();
+    }
+
 
     public boolean moore(boolean isClose) {
         isArrayFull = true;
@@ -931,7 +1040,7 @@ public class GrowthGrains {
 
                         }
                         //Prawe
-                        case 1:{
+                        case 1: {
                             if (checkLeftUpperNeigbour(indUp, indLeft)) {
                                 hasGrainHasNeigbours++;
                             }
@@ -951,10 +1060,10 @@ public class GrowthGrains {
                             if (checkRightNeigbour(i, indRight)) {
                                 hasGrainHasNeigbours++;
                             }
-                         break;
+                            break;
                         }
                         // Lewe
-                        case 2:{
+                        case 2: {
                             if (checkLeftNeigbour(i, indLeft)) {
                                 hasGrainHasNeigbours++;
                             }
@@ -977,7 +1086,7 @@ public class GrowthGrains {
                             break;
                         }
                         //Dolne
-                        case 3:{
+                        case 3: {
                             if (checkLeftUpperNeigbour(indUp, indLeft)) {
                                 hasGrainHasNeigbours++;
                             }
@@ -1037,7 +1146,7 @@ public class GrowthGrains {
         this.grainsArray = grainsArray;
     }
 
-    public void setGrainAdd(int x , int y , int i){
+    public void setGrainAdd(int x, int y, int i) {
         grainsArray[x][y].setState(1);
         grainsArray[x][y].setId(i);
         grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));

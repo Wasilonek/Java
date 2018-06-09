@@ -8,14 +8,15 @@ import javafx.scene.paint.Color;
 public class Grain {
     private int state, nextState, id, newId;
     private Color color, newColor;
-    private int energy;
+    private int energy , newEnergy;
 
     public Grain() {
         state = nextState = 0;
         id = newId = -1;
         color = Color.GREEN;
         newColor = Color.WHITE;
-        energy = 0;
+        energy = -1;
+        newEnergy = -1;
     }
 
     public int getState() {
@@ -64,5 +65,21 @@ public class Grain {
 
     public void setEnergy(int energy) {
         this.energy = energy;
+    }
+
+    public int getNewId() {
+        return newId;
+    }
+
+    public Color getNewColor() {
+        return newColor;
+    }
+
+    public int getNewEnergy() {
+        return newEnergy;
+    }
+
+    public void setNewEnergy(int newEnergy) {
+        this.newEnergy = newEnergy;
     }
 }
