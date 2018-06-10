@@ -426,20 +426,36 @@ public class GrowthGrains {
                 localEnergy = 0;
                 setEdge(isPeriodic, i, j);
                 grainToCalculateEnergy = grainsArray[i][j];
+
+                if (!(indLeft == -1) && !(indUp == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indUp][indLeft]))
                     localEnergy++;
+
+                if (!(indUp == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indUp][j]))
                     localEnergy++;
+
+                if (!(indRight == -1) && !(indUp == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indUp][indRight]))
                     localEnergy++;
+
+                if (!(indLeft == -1) )
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[i][indLeft]))
                     localEnergy++;
+
+                if (!(indRight == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[i][indRight]))
                     localEnergy++;
+
+                if (!(indDown == -1) && !(indLeft == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indDown][indLeft]))
                     localEnergy++;
+
+                if (!(indDown == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indDown][j]))
                     localEnergy++;
+
+                if (!(indRight == -1) && !(indDown == -1))
                 if (compareNeighboursId(grainToCalculateEnergy, grainsArray[indDown][indRight]))
                     localEnergy++;
 
@@ -478,6 +494,10 @@ public class GrowthGrains {
 //        }
 //
 //        System.out.println("\n\n");
+        if (grainsController.getNumberOfGrains() > numberOfId) {
+            numberOfId = grainsController.getNumberOfGrains();
+        }
+
         //int isFinish = 0;
         calculateEnergy(isPeriodic);
         int localEnergy, localID;
@@ -495,20 +515,36 @@ public class GrowthGrains {
 
                 localID = random.nextInt(numberOfId);
 
-                if (compareId(localID, grainsArray[indUp][indLeft].getId()))
-                    localEnergy++;
+                if (!(indLeft == -1) && !(indUp == -1))
+                    if (compareId(localID, grainsArray[indUp][indLeft].getId()))
+                        localEnergy++;
+
+                if (!(indUp == -1))
                 if (compareId(localID, grainsArray[indUp][j].getId()))
                     localEnergy++;
+
+                if (!(indRight == -1) && !(indUp == -1))
                 if (compareId(localID, grainsArray[indUp][indRight].getId()))
                     localEnergy++;
+
+                if (!(indLeft == -1))
                 if (compareId(localID, grainsArray[i][indLeft].getId()))
                     localEnergy++;
+
+                if (!(indRight == -1))
                 if (compareId(localID, grainsArray[i][indRight].getId()))
                     localEnergy++;
+
+                if (!(indDown == -1) && !(indLeft == -1))
                 if (compareId(localID, grainsArray[indDown][indLeft].getId()))
                     localEnergy++;
+
+
+                if (!(indDown == -1))
                 if (compareId(localID, grainsArray[indDown][j].getId()))
                     localEnergy++;
+
+                if (!(indRight == -1) && !(indDown == -1))
                 if (compareId(localID, grainsArray[indDown][indRight].getId()))
                     localEnergy++;
 
