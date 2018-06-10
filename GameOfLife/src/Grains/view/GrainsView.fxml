@@ -72,9 +72,8 @@
             <Label prefHeight="17.0" prefWidth="151.0" text="Liczba ID do wylosowania" />
             <TextField fx:id="numberOfIdTextField" prefHeight="25.0" prefWidth="100.0" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#setIdAction" text="Set ID" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#randOnClearAction" text="Clear Rand" GridPane.rowIndex="3" />
             <Button mnemonicParsing="false" onAction="#monteCarloAction" text="Monte Carlo" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" onAction="#StopMonteCarloAction" text="Stop" GridPane.rowIndex="5" />
+            <Button mnemonicParsing="false" onAction="#stopMonteCarloAction" text="Stop" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </children>

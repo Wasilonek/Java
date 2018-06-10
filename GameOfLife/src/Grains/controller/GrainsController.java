@@ -527,7 +527,7 @@ public class GrainsController {
     }
 
     @FXML
-    public void StopMonteCarloAction(){
+    public void stopMonteCarloAction(){
         isStartOn = false;
         isOneDrawnigThread = true;
         try {

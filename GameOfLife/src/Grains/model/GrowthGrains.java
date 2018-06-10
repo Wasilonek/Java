@@ -51,6 +51,14 @@ public class GrowthGrains {
         id = 0;
         idToAssign = 0;
 
+
+//        for (int i = 0; i < 1000000; i++) {
+//
+//
+//            colorForEveryId.put(i, (Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble())));
+//
+//        }
+
     }
 
     public void wrongFormatAlertMessage() {
@@ -107,7 +115,6 @@ public class GrowthGrains {
     }
 
     public boolean randomGrains() {
-        colorForEveryId.clear();
         int x, y;
 
         int maxGrainsNumber = width * height;
@@ -127,20 +134,21 @@ public class GrowthGrains {
             }
             grainsArray[x][y].setState(1);
             grainsArray[x][y].setId(i);
-            grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
+            //grainsArray[x][y].setColor(Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble()));
+            grainsArray[x][y].setColor(colorForEveryId.get(grainsArray[x][y].getId()));
             i++;
         }
         return false;
     }
 
     public void randColors(int numberOfId) {
+        colorForEveryId.clear();
         for (int i = 0; i < numberOfId; i++) {
             colorForEveryId.put(i, (Color.color(random.nextDouble(), random.nextDouble(), random.nextDouble())));
         }
     }
 
     public void randomMonteCarloGrains(int numberOfId) {
-        colorForEveryId.clear();
         randColors(numberOfId);
         clearArray();
         for (int i = 0; i < width; i++) {
@@ -470,11 +478,17 @@ public class GrowthGrains {
 //        }
 //
 //        System.out.println("\n\n");
-
+        //int isFinish = 0;
         calculateEnergy(isPeriodic);
         int localEnergy, localID;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+//                if (grainsArray[i][j].getEnergy() == 0)
+//                    isFinish++;
+//
+//                if(isFinish == width*height)
+//                    return true;
+
                 setEdge(isPeriodic, i, j);
 
                 localEnergy = 0;
